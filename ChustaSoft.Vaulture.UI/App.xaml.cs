@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace Vaulture
+namespace ChustaSoft.Vaulture.UI
 {
     /// <summary>
     /// Interaction logic for App.xaml
