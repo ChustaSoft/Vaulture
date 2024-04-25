@@ -1,28 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Wpf.Ui.Appearance;
 
-namespace ChustaSoft.Vaulture.UI.Pages
+namespace ChustaSoft.Vaulture.UI.Pages;
+
+/// <summary>
+/// Interaction logic for SettingsPage.xaml
+/// </summary>
+public partial class SettingsPage
 {
-    /// <summary>
-    /// Interaction logic for SettingsPage.xaml
-    /// </summary>
-    public partial class SettingsPage : Page
+    public SettingsPage()
     {
-        public SettingsPage()
+        InitializeComponent();
+
+        AppVersionTextBlock.Text = $"WPF UI - Simple Demo - {GetAssemblyVersion()}";
+
+        if (ApplicationThemeManager.GetAppTheme() == ApplicationTheme.Dark)
         {
-            InitializeComponent();
+            DarkThemeRadioButton.IsChecked = true;
         }
+        else
+        {
+            LightThemeRadioButton.IsChecked = true;
+        }
+    }
+
+    private void OnLightThemeRadioButtonChecked(object sender, RoutedEventArgs e)
+    {
+        ApplicationThemeManager.Apply(ApplicationTheme.Light);
+    }
+
+    private void OnDarkThemeRadioButtonChecked(object sender, RoutedEventArgs e)
+    {
+        ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+    }
+
+    private static string GetAssemblyVersion()
+    {
+        return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString()
+            ?? string.Empty;
     }
 }
