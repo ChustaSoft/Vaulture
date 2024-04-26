@@ -1,12 +1,52 @@
-﻿namespace ChustaSoft.Vaulture.UI;
+﻿using Wpf.Ui.Controls;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow
+namespace ChustaSoft.Vaulture.UI;
+
+
+public partial class MainWindow : INavigationWindow
 {
-    public MainWindow()
+    public MainWindowViewModel ViewModel { get; private set; }
+
+
+    public MainWindow(MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
     {
-        InitializeComponent();        
+        ViewModel = viewModel;
+        DataContext = this;
+
+        Wpf.Ui.Appearance.SystemThemeWatcher.Watch(this);
+
+        InitializeComponent();
+        SetPageService(pageService);
+
+        navigationService.SetNavigationControl(RootNavigation);
     }
+
+    public INavigationView GetNavigation() => RootNavigation;
+
+    public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
+
+    public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
+
+    public void ShowWindow() => Show();
+
+    public void CloseWindow() => Close();
+
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+
+        Application.Current.Shutdown();
+    }
+
+    INavigationView INavigationWindow.GetNavigation()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetServiceProvider(IServiceProvider serviceProvider)
+    {
+        throw new NotImplementedException();
+    }
+
 }

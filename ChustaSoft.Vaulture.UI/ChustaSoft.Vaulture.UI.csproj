@@ -9,7 +9,31 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="WPF-UI" Version="3.0.4" />
+		<PackageReference Include="WPF-UI.Tray" Version="3.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Resources\chustasoft-icon.ico" />
+		<Resource Include="Resources\chustasoft-logo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\chustasoft-icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="MainWindowViewModel.cs">
+			<DependentUpon>MainWindow.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\SettingsPageViewModel.cs">
+			<DependentUpon>SettingsPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\DashboardPageViewModel.cs">
+			<DependentUpon>DashboardPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 </Project>

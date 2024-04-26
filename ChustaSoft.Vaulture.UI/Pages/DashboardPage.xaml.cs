@@ -1,15 +1,19 @@
 ﻿using System.Windows.Controls;
 
-namespace ChustaSoft.Vaulture.UI.Pages
-{
-    /// <summary>
-    /// Interaction logic for DashboardPage.xaml
-    /// </summary>
-    public partial class DashboardPage : Page
+namespace ChustaSoft.Vaulture.UI.Pages;
+
+
+public partial class DashboardPage : Page
+{    
+
+    public DashboardPageViewModel ViewModel { get; private set; }
+
+
+    public DashboardPage(DashboardPageViewModel viewModel)
     {
-        public DashboardPage()
-        {
-            InitializeComponent();
-        }
+        ViewModel = viewModel;
+        DataContext = this;
+
+        InitializeComponent();
     }
 }
