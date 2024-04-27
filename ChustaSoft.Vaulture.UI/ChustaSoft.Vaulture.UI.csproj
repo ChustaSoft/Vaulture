@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Resources\chustasoft-icon.ico" />
+		<Resource Include="Resources\chustasoft-icon.ico" />
 		<Resource Include="Resources\chustasoft-logo.png" />
 	</ItemGroup>
 

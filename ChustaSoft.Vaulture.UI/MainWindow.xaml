@@ -17,6 +17,7 @@
             WindowBackdropType="Mica"
             WindowCornerPreference="Round"
             WindowStartupLocation="CenterScreen"
+            Icon="./Resources/chustasoft-icon.ico"
             mc:Ignorable="d">
 
     <Grid>
