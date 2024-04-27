@@ -25,6 +25,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\ChustaSoft.Vaulture.Application\ChustaSoft.Vaulture.Application.csproj" />
+		<ProjectReference Include="..\ChustaSoft.Vaulture.Domain\ChustaSoft.Vaulture.Domain.csproj" />
+		<ProjectReference Include="..\ChustaSoft.Vaulture.System\ChustaSoft.Vaulture.LocalSystem.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Update="MainWindowViewModel.cs">
 			<DependentUpon>MainWindow.xaml</DependentUpon>
 		</Compile>

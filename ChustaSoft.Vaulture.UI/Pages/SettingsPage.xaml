@@ -2,22 +2,47 @@
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+            xmlns:sys="clr-namespace:System;assembly=mscorlib"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:local="clr-namespace:ChustaSoft.Vaulture.UI.Pages"
+            xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
+            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
             Title="SettingsPage"
             d:DesignHeight="450"
             d:DesignWidth="800"
-            d:DataContext="{d:DesignInstance local:SettingsPage, IsDesignTimeCreatable=False}"  
+            d:DataContext="{d:DesignInstance local:SettingsPage, IsDesignTimeCreatable=False}"
             mc:Ignorable="d">
 
     <StackPanel Margin="10">
+
         <TextBlock FontSize="20" Margin="10" FontWeight="Medium" Text="Personalization" />
+        
         <TextBlock Margin="10" Text="Select Theme" />
         <StackPanel Orientation="Horizontal" Margin="10" >
             <RadioButton x:Name="LightThemeRadioButton" Command="{Binding ViewModel.LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
             <RadioButton x:Name="DarkThemeRadioButton" Command="{Binding ViewModel.DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
         </StackPanel>
 
+        
+        <TextBlock FontSize="20" Margin="10" FontWeight="Medium" Text="Secure Connections" />
+        
+        <TextBlock Margin="10" Text="Add Secure Connection" />
+        <StackPanel Orientation="Horizontal" Margin="10" >
+            <ui:TextBox PlaceholderText="Add new Secure connection... "  Text="{Binding ViewModel.SecureConnectionToAdd }" Width="400" />
+            <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Margin="10,0" Command="{Binding ViewModel.AddSecureConnectionCommand}" />
+        </StackPanel>
+
+        <TextBlock Margin="10" Text="Configured connections" />
+        <TreeView ItemsSource="{Binding ViewModel.SecureConnections}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type module:SettingsValuesDto}" ItemsSource="{Binding Values}">
+                    <TextBlock Text="{Binding Type}" />
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type sys:String}">
+                    <TextBlock Text="{Binding}" />
+                </DataTemplate>
+            </TreeView.Resources>
+        </TreeView>
 
     </StackPanel>
 </Page>

@@ -36,7 +36,7 @@ public partial class MainWindow : INavigationWindow
     {
         base.OnClosed(e);
 
-        Application.Current.Shutdown();
+        System.Windows.Application.Current.Shutdown();
     }
 
     INavigationView INavigationWindow.GetNavigation()
