@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -9,6 +10,14 @@ namespace ChustaSoft.Vaulture.UI.Pages;
 
 public partial class SettingsPageViewModel : ObservableObject, INavigationAware
 {
+
+    [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool IsSystemUsingDarkMode();
+
+
+    [ObservableProperty]
+    private bool systemThemeChecked = true; //TODO: For sake of testing, by now is active by default
 
     [ObservableProperty]
     private bool darkThemeChecked = false;
@@ -23,17 +32,31 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     private ObservableCollection<SettingsValuesDto> secureConnections = new ObservableCollection<SettingsValuesDto>() { new (SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
 
 
+    [RelayCommand]
+    private void OnSystemThemeRadioButtonChecked()
+    {
+        var isUsingBlackTheme = IsSystemUsingDarkMode();
+
+        SystemThemeChecked = true;
+
+        if (isUsingBlackTheme)
+            ApplyDarkTheme();
+        else
+            ApplyLightTheme();
+    }
 
     [RelayCommand]
     private void OnLightThemeRadioButtonChecked()
     {
-        ApplicationThemeManager.Apply(ApplicationTheme.Light);
-    }
+        LightThemeChecked = true;
+        ApplyLightTheme();
+    }    
 
     [RelayCommand]
     private void OnDarkThemeRadioButtonChecked()
     {
-        ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+        DarkThemeChecked = true;
+        ApplyDarkTheme();
     }
 
     [RelayCommand]
@@ -55,6 +78,17 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     }
 
     public void OnNavigatedFrom() { }
+
+
+    private void ApplyLightTheme()
+    {
+        ApplicationThemeManager.Apply(ApplicationTheme.Light);
+    }
+
+    private void ApplyDarkTheme()
+    {
+        ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+    }
 
     //TODO: Take default system theme from System
 

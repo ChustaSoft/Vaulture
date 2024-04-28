@@ -14,13 +14,14 @@
             mc:Ignorable="d">
 
     <StackPanel Margin="10">
-
+        
         <TextBlock FontSize="20" Margin="10" FontWeight="Medium" Text="Personalization" />
         
         <TextBlock Margin="10" Text="Select Theme" />
         <StackPanel Orientation="Horizontal" Margin="10" >
-            <RadioButton x:Name="LightThemeRadioButton" Command="{Binding ViewModel.LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
-            <RadioButton x:Name="DarkThemeRadioButton" Command="{Binding ViewModel.DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
+            <RadioButton x:Name="SystemThemeRadioButton" IsChecked="{Binding ViewModel.SystemThemeChecked}" Command="{Binding ViewModel.SystemThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="System" GroupName="selectTheme" />
+            <RadioButton x:Name="LightThemeRadioButton" IsChecked="{Binding ViewModel.LightThemeChecked}" Command="{Binding ViewModel.LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
+            <RadioButton x:Name="DarkThemeRadioButton" IsChecked="{Binding ViewModel.DarkThemeChecked}" Command="{Binding ViewModel.DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
         </StackPanel>
 
         
