@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Vaulture.UI.Pages;
+﻿using ChustaSoft.Vaulture.Application.Settings;
+using ChustaSoft.Vaulture.UI.Pages;
 using ChustaSoft.Vaulture.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,8 @@ public partial class App
                 _ = services.AddSingleton<DashboardPageViewModel>();
                 _ = services.AddSingleton<SettingsPage>();
                 _ = services.AddSingleton<SettingsPageViewModel>();
+
+                _ = services.AddScoped<IAppSettingsService, AppSettingsService>();
             }
         )
         .Build();

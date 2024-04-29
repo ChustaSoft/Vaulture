@@ -5,12 +5,17 @@
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:sys="clr-namespace:System;assembly=mscorlib"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+            xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
+            xmlns:helpers="clr-namespace:ChustaSoft.Vaulture.UI.Helpers"
             Title="SettingsPage"
             d:DesignHeight="450"
             d:DesignWidth="800"
             mc:Ignorable="d">
+
+    <Page.Resources>
+        <helpers:ThemeBooleanConverter x:Key="ThemeBooleanConverter" />
+    </Page.Resources>
 
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
@@ -27,9 +32,9 @@
         
         <TextBlock Margin="10" Text="Select Theme" />
         <StackPanel Orientation="Horizontal" Margin="10" >
-            <RadioButton x:Name="SystemThemeRadioButton" IsChecked="{Binding SystemThemeChecked}" Command="{Binding SystemThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="System" GroupName="selectTheme" />
-            <RadioButton x:Name="LightThemeRadioButton" IsChecked="{Binding LightThemeChecked}" Command="{Binding LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
-            <RadioButton x:Name="DarkThemeRadioButton" IsChecked="{Binding DarkThemeChecked}" Command="{Binding DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
+            <RadioButton x:Name="SystemThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=System}" Command="{Binding SystemThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="System" GroupName="selectTheme" />
+            <RadioButton x:Name="LightThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=Light}" Command="{Binding LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
+            <RadioButton x:Name="DarkThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=Dark}" Command="{Binding DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
         </StackPanel>
 
         
@@ -44,7 +49,7 @@
         <TextBlock Margin="10" Text="Configured connections" />
         <TreeView ItemsSource="{Binding SecureConnections}">
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type module:SettingsValuesDto}" ItemsSource="{Binding Values}">
+                <HierarchicalDataTemplate DataType="{x:Type module:SecureSettingsValuesDto}" ItemsSource="{Binding Values}">
                     <TextBlock Text="{Binding Type}" />
                 </HierarchicalDataTemplate>
                 <DataTemplate DataType="{x:Type sys:String}">

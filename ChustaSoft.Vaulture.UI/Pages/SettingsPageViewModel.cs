@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSaveCommand;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
 
 
-public partial class SettingsPageViewModel : ObservableObject, INavigationAware
+public partial class SettingsPageViewModel : ObservableObject
 {
 
     [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
@@ -16,20 +17,22 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     public static partial bool IsSystemUsingDarkMode();
 
 
-    [ObservableProperty]
-    private bool systemThemeChecked;
+    private readonly IAppSettingsService _appSettingsService;
+
+    public SettingsPageViewModel(IAppSettingsService appSettingsService)
+    {
+        _appSettingsService = appSettingsService;
+    }
+
 
     [ObservableProperty]
-    private bool darkThemeChecked;
-
-    [ObservableProperty]
-    private bool lightThemeChecked;
+    private ThemeMode themeModeSelected;
 
     [ObservableProperty]
     private string secureConnectionToAdd = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<SettingsValuesDto> secureConnections = new();
+    private ObservableCollection<SecureSettingsValuesDto> secureConnections = new();
 
 
     [RelayCommand]
@@ -37,7 +40,7 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     {
         var isUsingBlackTheme = IsSystemUsingDarkMode();
 
-        SystemThemeChecked = true;
+        ThemeModeSelected = ThemeMode.System;
 
         if (isUsingBlackTheme)
             ApplyDarkTheme();
@@ -48,14 +51,14 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     [RelayCommand]
     private void OnLightThemeRadioButtonChecked()
     {
-        LightThemeChecked = true;
+        ThemeModeSelected = ThemeMode.Light;
         ApplyLightTheme();
     }
 
     [RelayCommand]
     private void OnDarkThemeRadioButtonChecked()
     {
-        DarkThemeChecked = true;
+        ThemeModeSelected = ThemeMode.Dark;
         ApplyDarkTheme();
     }
 
@@ -70,31 +73,22 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     }
 
     [RelayCommand]
-    private void OnSave()
+    private async Task OnSave()
     {
         //TODO: Implement save button, disable if nothing changed
+        var command = new SettingsSaveCommand(ThemeModeSelected, SecureConnections);
+
+        await _appSettingsService.SaveAsync(command);
     }
 
-    public void OnNavigatedTo()
-    {
-        if (ApplicationThemeManager.GetAppTheme() == ApplicationTheme.Dark)
-            DarkThemeChecked = true;
-        else
-            LightThemeChecked = true;
-    }
 
     public void OnLoad()
     {
         //TODO: Implement on load, retrieve data from local storage
-        SystemThemeChecked = true;
-        DarkThemeChecked = false;
-        LightThemeChecked = false;
+        ThemeModeSelected = ThemeMode.System;
 
-        SecureConnections = new ObservableCollection<SettingsValuesDto>() { new(SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
+        SecureConnections = new ObservableCollection<SecureSettingsValuesDto>() { new(SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
     }
-
-
-    public void OnNavigatedFrom() { }
 
 
     private void ApplyLightTheme()
@@ -106,4 +100,5 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     {
         ApplicationThemeManager.Apply(ApplicationTheme.Dark);
     }
+
 }
