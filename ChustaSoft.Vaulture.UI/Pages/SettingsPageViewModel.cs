@@ -69,6 +69,12 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
         }
     }
 
+    [RelayCommand]
+    private void OnSave()
+    {
+        //TODO: Implement save button, disable if nothing changed
+    }
+
     public void OnNavigatedTo()
     {
         if (ApplicationThemeManager.GetAppTheme() == ApplicationTheme.Dark)
@@ -100,12 +106,4 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     {
         ApplicationThemeManager.Apply(ApplicationTheme.Dark);
     }
-
-    //TODO: Take default system theme from System
-
-    //TODO. Add system default theme to options
-
-    //TODO: Implement save button, disable if nothing changed
-
-    //TODO: Inject IAppSettingsService
 }
