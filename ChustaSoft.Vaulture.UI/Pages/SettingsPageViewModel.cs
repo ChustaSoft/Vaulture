@@ -17,19 +17,19 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
 
 
     [ObservableProperty]
-    private bool systemThemeChecked = true; //TODO: For sake of testing, by now is active by default
+    private bool systemThemeChecked;
 
     [ObservableProperty]
-    private bool darkThemeChecked = false;
+    private bool darkThemeChecked;
 
     [ObservableProperty]
-    private bool lightThemeChecked = false;
+    private bool lightThemeChecked;
 
     [ObservableProperty]
     private string secureConnectionToAdd = string.Empty;
 
-    [ObservableProperty] //Temporary mocking these values
-    private ObservableCollection<SettingsValuesDto> secureConnections = new ObservableCollection<SettingsValuesDto>() { new (SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
+    [ObservableProperty]
+    private ObservableCollection<SettingsValuesDto> secureConnections = new();
 
 
     [RelayCommand]
@@ -50,7 +50,7 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     {
         LightThemeChecked = true;
         ApplyLightTheme();
-    }    
+    }
 
     [RelayCommand]
     private void OnDarkThemeRadioButtonChecked()
@@ -77,6 +77,17 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
             LightThemeChecked = true;
     }
 
+    public void OnLoad()
+    {
+        //TODO: Implement on load, retrieve data from local storage
+        SystemThemeChecked = true;
+        DarkThemeChecked = false;
+        LightThemeChecked = false;
+
+        SecureConnections = new ObservableCollection<SettingsValuesDto>() { new(SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
+    }
+
+
     public void OnNavigatedFrom() { }
 
 
@@ -91,8 +102,6 @@ public partial class SettingsPageViewModel : ObservableObject, INavigationAware
     }
 
     //TODO: Take default system theme from System
-
-    //TODO: Implement on load, retrieve data from local storage
 
     //TODO. Add system default theme to options
 
