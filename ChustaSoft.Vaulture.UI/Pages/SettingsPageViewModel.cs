@@ -3,7 +3,6 @@ using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSaveCommand;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
@@ -32,7 +31,7 @@ public partial class SettingsPageViewModel : ObservableObject
     private string secureConnectionToAdd = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<SecureSettingsValuesDto> secureConnections = new();
+    private ObservableCollection<SecureConnectionsDto> secureConnections = new();
 
 
     [RelayCommand]
@@ -81,13 +80,13 @@ public partial class SettingsPageViewModel : ObservableObject
         await _appSettingsService.SaveAsync(command);
     }
 
-
-    public void OnLoad()
+    [RelayCommand]
+    public async Task OnLoadAsync()
     {
-        //TODO: Implement on load, retrieve data from local storage
-        ThemeModeSelected = ThemeMode.System;
+        var settings = await _appSettingsService.LoadAsync();
 
-        SecureConnections = new ObservableCollection<SecureSettingsValuesDto>() { new(SecureConnectionType.AzureVault, new ObservableCollection<string>() { "connection1", "connection2" }) };
+        ThemeModeSelected = settings.Theme;
+        SecureConnections = new ObservableCollection<SecureConnectionsDto>(settings.SecureConnections);
     }
 
 

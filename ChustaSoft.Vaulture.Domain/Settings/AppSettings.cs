@@ -5,13 +5,13 @@ public class AppSettings
 {
     public ThemeMode Theme { get; init; }
 
-    public List<SecureConnection> _secureConnection;
-    public IReadOnlyList<SecureConnection> SecureConnection => _secureConnection;
+    public List<SecureConnection> _secureConnections;
+    public IReadOnlyList<SecureConnection> SecureConnections => _secureConnections;
 
 
-    public AppSettings(ThemeMode theme, List<SecureConnection> secureConnection)
+    public AppSettings(ThemeMode theme, List<SecureConnection> secureConnections)
     {
         Theme = theme;
-        _secureConnection = secureConnection;
+        _secureConnections = secureConnections;
     }
 }

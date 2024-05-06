@@ -3,4 +3,4 @@
 namespace ChustaSoft.Vaulture.Application.Settings;
 
 
-public record SettingsSaveCommand(ThemeMode Theme, IEnumerable<SecureSettingsValuesDto> SecureSettings);
+public record SettingsSaveCommand(ThemeMode Theme, IEnumerable<SecureConnectionsDto> SecureSettings);
