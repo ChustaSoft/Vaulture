@@ -33,6 +33,9 @@ public partial class SettingsPageViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<SecureConnectionsDto> secureConnections = new();
 
+    [ObservableProperty]
+    private bool enableSaveAction = false;
+
 
     [RelayCommand]
     private void OnSystemThemeRadioButtonChecked()
@@ -45,6 +48,8 @@ public partial class SettingsPageViewModel : ObservableObject
             ApplyDarkTheme();
         else
             ApplyLightTheme();
+
+        EnableSaveAction = true;
     }
 
     [RelayCommand]
@@ -52,6 +57,7 @@ public partial class SettingsPageViewModel : ObservableObject
     {
         ThemeModeSelected = ThemeMode.Light;
         ApplyLightTheme();
+        EnableSaveAction = true;
     }
 
     [RelayCommand]
@@ -59,6 +65,7 @@ public partial class SettingsPageViewModel : ObservableObject
     {
         ThemeModeSelected = ThemeMode.Dark;
         ApplyDarkTheme();
+        EnableSaveAction = true;
     }
 
     [RelayCommand]
@@ -68,16 +75,18 @@ public partial class SettingsPageViewModel : ObservableObject
         {
             SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(SecureConnectionToAdd);
             SecureConnectionToAdd = string.Empty;
+            EnableSaveAction = true;
         }
     }
 
     [RelayCommand]
     private async Task OnSave()
     {
-        //TODO: Implement save button, disable if nothing changed
         var command = new SettingsSaveCommand(ThemeModeSelected, SecureConnections);
 
         await _appSettingsService.SaveAsync(command);
+
+        EnableSaveAction = false;
     }
 
     [RelayCommand]
