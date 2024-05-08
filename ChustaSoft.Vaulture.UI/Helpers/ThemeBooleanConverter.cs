@@ -19,6 +19,8 @@ public class ThemeBooleanConverter : IValueConverter
 
     public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        var enumValue = Enum.Parse(typeof(ThemeMode), (string)parameter);
+
+        return enumValue;
     }
 }
