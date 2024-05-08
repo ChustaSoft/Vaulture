@@ -8,6 +8,7 @@ using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSav
 namespace ChustaSoft.Vaulture.UI.Pages;
 
 
+//TODO: By the moment, only Azure Vaults are supported
 public partial class SettingsPageViewModel : ObservableObject
 {
 
@@ -73,7 +74,11 @@ public partial class SettingsPageViewModel : ObservableObject
     {
         if (!string.IsNullOrWhiteSpace(SecureConnectionToAdd))
         {
-            SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(SecureConnectionToAdd);
+            if (SecureConnections.Any(x => x.Type == SecureConnectionType.AzureVault))
+                SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(SecureConnectionToAdd);
+            else
+                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionType.AzureVault, [SecureConnectionToAdd]));
+
             SecureConnectionToAdd = string.Empty;
             EnableSaveAction = true;
         }

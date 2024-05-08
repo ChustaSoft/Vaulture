@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 namespace ChustaSoft.Vaulture.LocalSystem.Settings;
 
 
+//TODO: Implement validation via xsd of the xml file
 public class AppSettingsFileStorage : IAppSettingsStorage
 {
 
@@ -12,31 +13,29 @@ public class AppSettingsFileStorage : IAppSettingsStorage
 
     public Task<AppSettings> LoadAsync()
     {
-        //TODO: Implement validation via xsd of the xml file
         return Task.Run(() =>
         {
             XmlSerializer serializer = new XmlSerializer(typeof(AppSettingsInfraModel));
-            using (TextReader reader = new StreamReader(SETTINGS_XML_FILE))
+
+            try
             {
-                try
+                using (TextReader reader = new StreamReader(SETTINGS_XML_FILE))
                 {
                     var infraSettings = (AppSettingsInfraModel)serializer.Deserialize(reader);
 
                     return infraSettings.ToEntity();
                 }
-                catch (Exception ex)
-                {
-                    //TODO: Return default if nothing saved yet
-
-                    throw;
-                }
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                //TODO: Log info
+                return new AppSettings();
             }
         });
     }
 
     public Task SaveAsync(AppSettings settings)
     {
-        //TODO: Implement validation via xsd of the xml file
         return Task.Run(() =>
         {
             var infraModel = new AppSettingsInfraModel(settings);
@@ -47,6 +46,6 @@ public class AppSettingsFileStorage : IAppSettingsStorage
                 serializer.Serialize(writer, infraModel);
             }
         });
-
     }
+
 }
