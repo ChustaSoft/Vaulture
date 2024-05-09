@@ -1,8 +1,7 @@
 ﻿using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Settings;
+using ChustaSoft.Vaulture.UI.Services;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
-using Wpf.Ui.Appearance;
 using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSaveCommand;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
@@ -12,16 +11,13 @@ namespace ChustaSoft.Vaulture.UI.Pages;
 public partial class SettingsPageViewModel : ObservableObject
 {
 
-    [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool IsSystemUsingDarkMode();
-
-
     private readonly IAppSettingsService _appSettingsService;
+    private readonly IThemeManager _themeManager;
 
-    public SettingsPageViewModel(IAppSettingsService appSettingsService)
+    public SettingsPageViewModel(IAppSettingsService appSettingsService, IThemeManager themeManager)
     {
         _appSettingsService = appSettingsService;
+        _themeManager = themeManager;
     }
 
 
@@ -41,31 +37,27 @@ public partial class SettingsPageViewModel : ObservableObject
     [RelayCommand]
     private void OnSystemThemeRadioButtonChecked()
     {
-        var isUsingBlackTheme = IsSystemUsingDarkMode();
+        _themeManager.Apply(ThemeMode.System);
 
         ThemeModeSelected = ThemeMode.System;
-
-        if (isUsingBlackTheme)
-            ApplyDarkTheme();
-        else
-            ApplyLightTheme();
-
         EnableSaveAction = true;
     }
 
     [RelayCommand]
     private void OnLightThemeRadioButtonChecked()
     {
+        _themeManager.Apply(ThemeMode.Light);
+
         ThemeModeSelected = ThemeMode.Light;
-        ApplyLightTheme();
         EnableSaveAction = true;
     }
 
     [RelayCommand]
     private void OnDarkThemeRadioButtonChecked()
     {
+        _themeManager.Apply(ThemeMode.Dark);
+
         ThemeModeSelected = ThemeMode.Dark;
-        ApplyDarkTheme();
         EnableSaveAction = true;
     }
 
@@ -101,17 +93,6 @@ public partial class SettingsPageViewModel : ObservableObject
 
         ThemeModeSelected = settings.Theme;
         SecureConnections = new ObservableCollection<SecureConnectionsDto>(settings.SecureConnections);
-    }
-
-
-    private void ApplyLightTheme()
-    {
-        ApplicationThemeManager.Apply(ApplicationTheme.Light);
-    }
-
-    private void ApplyDarkTheme()
-    {
-        ApplicationThemeManager.Apply(ApplicationTheme.Dark);
     }
 
 }

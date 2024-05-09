@@ -33,6 +33,8 @@ public partial class App
                 _ = services.AddSingleton<ITaskBarService, TaskBarService>();
                 _ = services.AddSingleton<INavigationService, NavigationService>();
 
+                _ = services.AddSingleton<IThemeManager, ThemeManager>();
+
                 _ = services.AddSingleton<INavigationWindow, MainWindow>();
                 _ = services.AddSingleton<MainWindowViewModel>();
 
@@ -52,6 +54,20 @@ public partial class App
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         await _host.StartAsync();
+
+        await LoadAndApplySettings();
+    }
+
+    private static async Task LoadAndApplySettings()
+    {
+        using (var scope = _host.Services.CreateAsyncScope())
+        {
+            var settingsStorage = _host.Services.GetRequiredService<IAppSettingsStorage>();
+            var themeManager = _host.Services.GetRequiredService<IThemeManager>();
+
+            var settings = await settingsStorage.LoadAsync();
+            themeManager.Apply(settings.Theme);
+        }
     }
 
     private async void OnExit(object sender, ExitEventArgs e)
