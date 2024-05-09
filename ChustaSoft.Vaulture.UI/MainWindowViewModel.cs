@@ -11,7 +11,7 @@ public partial class MainWindowViewModel : ObservableObject
     private bool _isInitialized = false;
 
     [ObservableProperty]
-    private string _applicationTitle = string.Empty;
+    private string _applicationTitle = "ChustaSoft Vaulture";
 
     [ObservableProperty]
     private ObservableCollection<object> _navigationItems = [];
@@ -33,8 +33,6 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void InitializeViewModel()
     {
-        ApplicationTitle = "WPF UI - MVVM Demo";
-
         NavigationItems =
         [
             new NavigationViewItem()
