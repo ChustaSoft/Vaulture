@@ -40,6 +40,8 @@ public partial class App
 
                 _ = services.AddSingleton<SecretsPage>();
                 _ = services.AddSingleton<SecretsPageViewModel>();
+                _ = services.AddSingleton<SecretFormPage>();
+                _ = services.AddSingleton<SecretFormPageViewModel>();
                 _ = services.AddSingleton<SettingsPage>();
                 _ = services.AddSingleton<SettingsPageViewModel>();
 

@@ -8,7 +8,7 @@
             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
             xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
             xmlns:helpers="clr-namespace:ChustaSoft.Vaulture.UI.Helpers"
-            Title="SettingsPage"
+            Title="Settings"
             d:DesignHeight="450"
             d:DesignWidth="800"
             mc:Ignorable="d">
