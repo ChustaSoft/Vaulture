@@ -3,13 +3,13 @@
 namespace ChustaSoft.Vaulture.UI.Pages;
 
 
-public partial class DashboardPage : Page
+public partial class SecretsPage : Page
 {    
 
-    public DashboardPageViewModel ViewModel { get; private set; }
+    public SecretsPageViewModel ViewModel { get; private set; }
 
 
-    public DashboardPage(DashboardPageViewModel viewModel)
+    public SecretsPage(SecretsPageViewModel viewModel)
     {
         ViewModel = viewModel;
         DataContext = this;

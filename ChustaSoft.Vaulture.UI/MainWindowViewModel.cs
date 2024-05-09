@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using ChustaSoft.Vaulture.UI.Configuration;
+using System.Collections.ObjectModel;
 using Wpf.Ui.Controls;
 
 namespace ChustaSoft.Vaulture.UI;
@@ -38,9 +39,9 @@ public partial class MainWindowViewModel : ObservableObject
         [
             new NavigationViewItem()
             {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Pages.DashboardPage)
+                Content = AppConstants.Pages.SECRETS,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Key24 },
+                TargetPageType = typeof(Pages.SecretsPage)
             }
         ];
 
@@ -48,13 +49,13 @@ public partial class MainWindowViewModel : ObservableObject
         [
             new NavigationViewItem()
             {
-                Content = "Settings",
+                Content = AppConstants.Pages.SETTINGS,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
                 TargetPageType = typeof(Pages.SettingsPage)
             },
         ];
 
-        TrayMenuItems = [new() { Header = "Home", Tag = "tray_home" }];
+        TrayMenuItems = [new() { Header = AppConstants.Pages.SECRETS, Tag = "tray_home" }];
 
         _isInitialized = true;
     }

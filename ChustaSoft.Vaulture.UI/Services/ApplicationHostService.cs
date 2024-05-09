@@ -38,7 +38,7 @@ public class ApplicationHostService : IHostedService
             _navigationWindow = (_serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow)!;
             _navigationWindow!.ShowWindow();
 
-            _ = _navigationWindow.Navigate(typeof(DashboardPage));
+            _ = _navigationWindow.Navigate(typeof(SecretsPage));
         }
 
         await Task.CompletedTask;

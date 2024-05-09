@@ -39,8 +39,8 @@
 		<Compile Update="Pages\SettingsPageViewModel.cs">
 			<DependentUpon>SettingsPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Pages\DashboardPageViewModel.cs">
-			<DependentUpon>DashboardPage.xaml</DependentUpon>
+		<Compile Update="Pages\SecretsPageViewModel.cs">
+			<DependentUpon>SecretsPage.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
