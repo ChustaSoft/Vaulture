@@ -5,12 +5,15 @@
             DispatcherUnhandledException="OnDispatcherUnhandledException"
             Exit="OnExit"
             Startup="OnStartup">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ThemesDictionary/>
                 <ui:ControlsDictionary />
+                <ResourceDictionary Source="/Resources/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+    
 </Application>
