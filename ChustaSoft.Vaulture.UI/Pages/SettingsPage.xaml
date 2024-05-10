@@ -24,29 +24,30 @@
     </b:Interaction.Triggers>
 
 
-    <StackPanel Margin="10">
+    <StackPanel Style="{StaticResource CV_MainContainerPanel_Style}">
 
-        <ui:Button Appearance="Secondary" Icon="{ui:SymbolIcon Save28}" HorizontalAlignment="Right" Margin="0, 10, 10, 0" Command="{Binding SaveCommand}" IsEnabled="{Binding EnableSaveAction}" />
+        <StackPanel Style="{StaticResource CV_ActionButtonsPanel_Style}" >
+            <ui:Button Appearance="Secondary" Icon="{ui:SymbolIcon Save28}" Command="{Binding SaveCommand}" IsEnabled="{Binding EnableSaveAction}" />
+        </StackPanel>
 
-        <TextBlock FontSize="20" Margin="10" FontWeight="Medium" Text="Personalization" />
+        <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Personalization" />
 
-        <TextBlock Margin="10" Text="Select Theme" />
-        <StackPanel Orientation="Horizontal" Margin="10" >
+        <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Select Theme" />
+        <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}" >
             <RadioButton x:Name="SystemThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=System}" Command="{Binding SystemThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="System" GroupName="selectTheme" />
             <RadioButton x:Name="LightThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=Light}" Command="{Binding LightThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Light" GroupName="selectTheme" />
             <RadioButton x:Name="DarkThemeRadioButton" IsChecked="{Binding ThemeModeSelected, Converter={StaticResource ThemeBooleanConverter}, ConverterParameter=Dark}" Command="{Binding DarkThemeRadioButtonCheckedCommand, Mode=OneWay}" Content="Dark" GroupName="selectTheme" />
         </StackPanel>
 
+        <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Secure Connections" />
 
-        <TextBlock FontSize="20" Margin="10" FontWeight="Medium" Text="Secure Connections" />
-
-        <TextBlock Margin="10" Text="Add Secure Connection" />
-        <StackPanel Orientation="Horizontal" Margin="10" >
-            <ui:TextBox PlaceholderText="Add new Secure connection... "  Text="{Binding SecureConnectionToAdd }" Width="400" />
+        <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Add Secure Connection" />
+        <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}" >
+            <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionToAdd }" Width="400" />
             <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Margin="10,0" Command="{Binding AddSecureConnectionCommand}" />
         </StackPanel>
 
-        <TextBlock Margin="10" Text="Configured connections" />
+        <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Configured connections" />
         <TreeView ItemsSource="{Binding SecureConnections}">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type module:SecureConnectionsDto}" ItemsSource="{Binding Values}">
