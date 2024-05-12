@@ -9,6 +9,7 @@ public interface IAppSettingsService
 {
     Task<AppSettingsDto> LoadAsync();
     Task SaveAsync(SettingsSaveCommand command);
+    IEnumerable<string> GetConnections(SecureConnectionType azureVault);
 }
 
 
@@ -59,6 +60,13 @@ public class AppSettingsService : IAppSettingsService
 
             _appSettingsStorage.Save(_appSettings);
         });
+    }
+
+    public IEnumerable<string> GetConnections(SecureConnectionType connectionType)
+    {
+        return _appSettings.SecureConnections
+            .Where(x => x.Type == connectionType)
+            .Select(x => x.Value);
     }
 
 
