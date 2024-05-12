@@ -17,6 +17,8 @@ public class AppSettingsService : IAppSettingsService
 
     private readonly IAppSettingsStorage _appSettingsStorage;
 
+    private AppSettings _appSettings;
+
 
     public AppSettingsService(IAppSettingsStorage appSettingsStorage)
     {
@@ -26,21 +28,37 @@ public class AppSettingsService : IAppSettingsService
 
     public async Task<AppSettingsDto> LoadAsync()
     {
-        var settings = await _appSettingsStorage.LoadAsync();
-        var secureConnections = GetElements(settings).ToList();
+        return await Task.Run(() =>
+        {
+            try
+            {
+                if (_appSettings is null)
+                    _appSettings = _appSettingsStorage.Load();
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                //TODO Log error
+                _appSettings = new AppSettings();
+            }
 
-        return new AppSettingsDto(settings.Theme, secureConnections);
+            var secureConnections = GetElements(_appSettings).ToList();
+
+            return new AppSettingsDto(_appSettings.Theme, secureConnections);
+        });
     }
 
     public async Task SaveAsync(SettingsSaveCommand command)
     {
-        var secureConnections = new List<SecureConnection>();
-        foreach (var secureType in command.SecureSettings)
-            secureConnections.AddRange(secureType.Values.Select(x => new SecureConnection(secureType.Type, x)));
+        await Task.Run(() =>
+        {
+            var secureConnections = new List<SecureConnection>();
+            foreach (var secureType in command.SecureSettings)
+                secureConnections.AddRange(secureType.Values.Select(x => new SecureConnection(secureType.Type, x)));
 
-        var settings = new AppSettings(command.Theme, secureConnections);
+            _appSettings = new AppSettings(command.Theme, secureConnections);
 
-        await _appSettingsStorage.SaveAsync(settings);
+            _appSettingsStorage.Save(_appSettings);
+        });
     }
 
 

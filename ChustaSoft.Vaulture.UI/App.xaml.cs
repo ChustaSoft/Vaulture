@@ -64,10 +64,10 @@ public partial class App
     {
         using (var scope = _host.Services.CreateAsyncScope())
         {
-            var settingsStorage = _host.Services.GetRequiredService<IAppSettingsStorage>();
+            var settingsService = _host.Services.GetRequiredService<IAppSettingsService>();
             var themeManager = _host.Services.GetRequiredService<IThemeManager>();
 
-            var settings = await settingsStorage.LoadAsync();
+            var settings = await settingsService.LoadAsync();
             themeManager.Apply(settings.Theme);
         }
     }

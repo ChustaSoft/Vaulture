@@ -3,7 +3,7 @@
 
 public interface IAppSettingsStorage
 {
-    Task<AppSettings> LoadAsync();
+    AppSettings Load();
 
-    Task SaveAsync(AppSettings settings);
+    void Save(AppSettings settings);
 }
