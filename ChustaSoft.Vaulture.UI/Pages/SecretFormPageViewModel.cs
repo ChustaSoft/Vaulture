@@ -2,6 +2,7 @@
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
+using ChustaSoft.Vaulture.UI.Models;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
@@ -32,7 +33,17 @@ public partial class SecretFormPageViewModel : ObservableObject
     private ObservableCollection<SecretType> secretTypes = new ObservableCollection<SecretType>();
 
     [ObservableProperty]
-    private SecretType selectedSecretType;
+    private SecretType? selectedSecretType;
+
+    [ObservableProperty]
+    private SecretTypeVisibilityModel secretTypeVisibilityModel;
+
+
+    partial void OnSelectedConnectionChanged(string value)
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value };
+
+    partial void OnSelectedSecretTypeChanged(SecretType? value)
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SelectedConnection = SelectedConnection };
 
 
     [RelayCommand]
