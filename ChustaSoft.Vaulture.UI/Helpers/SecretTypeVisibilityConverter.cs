@@ -15,6 +15,7 @@ public class SecretTypeVisibilityConverter : IValueConverter
         return (castedValue.SecretType, castedValue.SelectedConnection, parameter) switch
         {
             (null, _, "Empty") => Visibility.Visible,
+            (_, null, "Empty") => Visibility.Visible,
             (SecretType.Credential, not null, "Credential") => Visibility.Visible,
             _ => Visibility.Hidden,
         };

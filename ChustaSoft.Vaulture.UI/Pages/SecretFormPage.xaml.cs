@@ -11,4 +11,11 @@ public partial class SecretFormPage : Page
 
         InitializeComponent();
     }
+
+    private void PasswordBox_PasswordChanged(Object sender, RoutedEventArgs e)
+    {
+        var vm = (SecretFormPageViewModel)DataContext;
+
+        vm.Password = ((Wpf.Ui.Controls.PasswordBox)sender).Password;
+    }
 }

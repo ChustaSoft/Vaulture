@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Common.Helpers;
+using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
@@ -12,11 +13,13 @@ public partial class SecretFormPageViewModel : ObservableObject
 {
 
     private readonly IAppSettingsService _appSettingsService;
+    private readonly ISecretsService _secretsService;
 
 
-    public SecretFormPageViewModel(IAppSettingsService appSettingsService)
+    public SecretFormPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService)
     {
         _appSettingsService = appSettingsService;
+        _secretsService = secretsService;
     }
 
 
@@ -27,7 +30,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     private ObservableCollection<string> secureConnections = new ObservableCollection<string>();
 
     [ObservableProperty]
-    private string selectedConnection;
+    private string? selectedConnection;
 
     [ObservableProperty]
     private ObservableCollection<SecretType> secretTypes = new ObservableCollection<SecretType>();
@@ -38,21 +41,45 @@ public partial class SecretFormPageViewModel : ObservableObject
     [ObservableProperty]
     private SecretTypeVisibilityModel secretTypeVisibilityModel;
 
+    [ObservableProperty]
+    private string name = string.Empty;
 
-    partial void OnSelectedConnectionChanged(string value)
+    [ObservableProperty]
+    private string key = string.Empty;
+
+    [ObservableProperty]
+    private string password = string.Empty;
+
+    [ObservableProperty]
+    private string visiblePassword = string.Empty;
+
+    private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
+
+
+    partial void OnSelectedConnectionChanged(string? value)
         => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value };
 
     partial void OnSelectedSecretTypeChanged(SecretType? value)
         => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SelectedConnection = SelectedConnection };
 
-
-    [RelayCommand]
-    private void OnSave()
+    partial void OnNameChanged(string value)
     {
-        //TODO: Save new secret
-
-        EnableSaveAction = false;
+        _credentialCreationCommand.Name = value;
+        EnableSaveAction = _credentialCreationCommand.IsValid();
     }
+
+    partial void OnKeyChanged(string value)
+    {
+        _credentialCreationCommand.Key = value;
+        EnableSaveAction = _credentialCreationCommand.IsValid();
+    }
+
+    partial void OnPasswordChanged(string value)
+    {
+        _credentialCreationCommand.Password = value;
+        EnableSaveAction = _credentialCreationCommand.IsValid();
+    }
+
 
     [RelayCommand]
     public void OnLoad()
@@ -67,5 +94,26 @@ public partial class SecretFormPageViewModel : ObservableObject
         var azureConnections = _appSettingsService.GetConnections(SecureConnectionType.AzureVault);
         SecureConnections = new ObservableCollection<string>(azureConnections);
         SecretTypes = new ObservableCollection<SecretType>(EnumsHelper.GetEnumList<SecretType>());
+    }
+
+    [RelayCommand]
+    private async Task OnSaveAsync()
+    {
+        await _secretsService.SaveAsync(_credentialCreationCommand);
+
+        ResetForm();
+    }
+
+
+    private void ResetForm()
+    {
+        SelectedSecretType = null;
+        SelectedConnection = null;
+        Name = string.Empty;
+        Key = string.Empty;
+        Password = string.Empty;
+        VisiblePassword = string.Empty;
+        _credentialCreationCommand = new CredentialCreationCommand();
+        EnableSaveAction = false;
     }
 }

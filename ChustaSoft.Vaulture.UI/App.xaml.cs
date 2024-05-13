@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Vaulture.Application.Settings;
+﻿using ChustaSoft.Vaulture.Application.Secrets;
+using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.LocalSystem.Settings;
 using ChustaSoft.Vaulture.UI.Pages;
@@ -46,6 +47,7 @@ public partial class App
                 _ = services.AddSingleton<SettingsPageViewModel>();
 
                 _ = services.AddScoped<IAppSettingsService, AppSettingsService>();
+                _ = services.AddScoped<ISecretsService, SecretsService>();
 
                 _ = services.AddScoped<IAppSettingsStorage, AppSettingsFileStorage>();
             }
