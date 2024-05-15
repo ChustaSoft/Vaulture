@@ -9,6 +9,7 @@ public interface IAppSettingsService
 {
     Task<AppSettingsDto> LoadAsync();
     Task SaveAsync(SettingsSaveCommand command);
+    Task<IDictionary<SecureConnectionType, IEnumerable<String>>> GetConnectionsAsync();
     IEnumerable<string> GetConnections(SecureConnectionType azureVault);
 }
 
@@ -31,16 +32,7 @@ public class AppSettingsService : IAppSettingsService
     {
         return await Task.Run(() =>
         {
-            try
-            {
-                if (_appSettings is null)
-                    _appSettings = _appSettingsStorage.Load();
-            }
-            catch (FileNotFoundException fnfe)
-            {
-                //TODO Log error
-                _appSettings = new AppSettings();
-            }
+            PerformLoadingSettings();
 
             var secureConnections = GetElements(_appSettings).ToList();
 
@@ -62,6 +54,18 @@ public class AppSettingsService : IAppSettingsService
         });
     }
 
+    public async Task<IDictionary<SecureConnectionType, IEnumerable<String>>> GetConnectionsAsync()
+    {
+        return await Task.Run(() =>
+        {
+            PerformLoadingSettings();
+
+            return _appSettings.SecureConnections
+                .GroupBy(x => x.Type)
+                .ToDictionary(x => x.Key, y => y.Select(z => z.Value));
+        });
+    }
+
     public IEnumerable<string> GetConnections(SecureConnectionType connectionType)
     {
         return _appSettings.SecureConnections
@@ -74,6 +78,20 @@ public class AppSettingsService : IAppSettingsService
     {
         foreach (var group in appSettings.SecureConnections.GroupBy(x => x.Type))
             yield return new SecureConnectionsDto(group.Key, new ObservableCollection<string>(group.Select(x => x.Value)));
+    }
+
+    private void PerformLoadingSettings()
+    {
+        try
+        {
+            if (_appSettings is null)
+                _appSettings = _appSettingsStorage.Load();
+        }
+        catch (FileNotFoundException fnfe)
+        {
+            //TODO Log error
+            _appSettings = new AppSettings();
+        }
     }
 
 }
