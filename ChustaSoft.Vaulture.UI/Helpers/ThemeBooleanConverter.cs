@@ -10,7 +10,7 @@ public class ThemeBooleanConverter : IValueConverter
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
         if (parameter is not string enumString)
-            throw new ArgumentException($"Parameter must be an enum value of {typeof(ThemeMode).Name}");
+            throw new ArgumentException($"Parameter must be an string valid to be casted into a {typeof(ThemeMode).Name}");
 
         var enumValue = Enum.Parse(typeof(ThemeMode), enumString);
 

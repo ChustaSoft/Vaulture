@@ -39,4 +39,10 @@
         <Setter Property="Margin" Value="{StaticResource DefaultVerticalMargin}"/>
     </Style>
 
+    <Style x:Key="CV_SectionDefaultMessage_Style" TargetType="{x:Type TextBlock}" >
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="{StaticResource DefaultVerticalMargin}"/>
+        <Setter Property="FontStyle" Value="Italic" />
+    </Style>
+
 </ResourceDictionary>

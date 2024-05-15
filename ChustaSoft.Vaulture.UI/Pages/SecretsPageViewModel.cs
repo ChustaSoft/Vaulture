@@ -16,7 +16,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private ObservableCollection<string> secureConnections;
+    private ObservableCollection<string> secureConnections = new ObservableCollection<string>();
 
 
     [RelayCommand]
