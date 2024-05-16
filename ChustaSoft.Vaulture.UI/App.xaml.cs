@@ -45,6 +45,7 @@ public partial class App
                 _ = services.AddSingleton<SecretFormPageViewModel>();
                 _ = services.AddSingleton<SettingsPage>();
                 _ = services.AddSingleton<SettingsPageViewModel>();
+                _ = services.AddSingleton<AboutPage>();
 
                 _ = services.AddScoped<IAppSettingsService, AppSettingsService>();
                 _ = services.AddScoped<ISecretsService, SecretsService>();

@@ -46,11 +46,17 @@ public partial class MainWindowViewModel : ObservableObject
                 Content = AppConstants.Pages.ADD_SECRET,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Add24 },
                 TargetPageType = typeof(Pages.SecretFormPage)
-            }
+            }            
         ];
 
         NavigationFooter =
         [
+            new NavigationViewItem()
+            {
+                Content = AppConstants.Pages.ABOUT,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Info24 },
+                TargetPageType = typeof(Pages.AboutPage)
+            },
             new NavigationViewItem()
             {
                 Content = AppConstants.Pages.SETTINGS,
