@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace ChustaSoft.Vaulture.UI.Pages;
+﻿namespace ChustaSoft.Vaulture.UI.Pages;
 
 public partial class SecureConnectionSecretsViewModel : ObservableObject
 {
@@ -9,12 +7,12 @@ public partial class SecureConnectionSecretsViewModel : ObservableObject
     private string name;
 
     [ObservableProperty]
-    private ObservableCollection<string> secrets;
+    private ObservableCollection<SecretDto> secrets;
 
 
-    public SecureConnectionSecretsViewModel(string name, string[] secrets)
+    public SecureConnectionSecretsViewModel(string name, SecretDto[] secrets)
     {
         Name = name;
-        Secrets = new ObservableCollection<string>(secrets);
+        Secrets = new ObservableCollection<SecretDto>(secrets);
     }
 }

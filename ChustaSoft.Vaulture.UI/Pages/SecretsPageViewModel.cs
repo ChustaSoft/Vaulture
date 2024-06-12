@@ -37,6 +37,18 @@ public partial class SecretsPageViewModel : ObservableObject
         SecureConnections = new ObservableCollection<SecureConnectionSecretsViewModel>(connectionsSecrets);
     }
 
+    [RelayCommand]
+    private async Task OnViewSecret(SecretDto secret)
+    {
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private async Task OnDeleteSecret(SecretDto secret)
+    {
+        await Task.CompletedTask;
+    }
+
 
     private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, string? secureConnection)
     {

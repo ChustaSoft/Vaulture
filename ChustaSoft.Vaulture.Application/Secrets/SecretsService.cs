@@ -1,9 +1,11 @@
-﻿namespace ChustaSoft.Vaulture.Application.Secrets;
+﻿using ChustaSoft.Vaulture.Domain.Secrets;
+
+namespace ChustaSoft.Vaulture.Application.Secrets;
 
 
 public interface ISecretsService
 {
-    Task<string[]> GetAllAsync(string secretConnection);
+    Task<SecretDto[]> GetAllAsync(string secretConnection);
     Task SaveAsync(CredentialCreationCommand credentialCreation);
 }
 
@@ -11,11 +13,11 @@ public interface ISecretsService
 public class SecretsService : ISecretsService
 {
 
-    public Task<string[]> GetAllAsync(string secretConnection)
+    public Task<SecretDto[]> GetAllAsync(string secretConnection)
     {
         //TODO: Retrieve secret names from Vault
 
-        return Task.FromResult<string[]>(["test1", "test2", "test3"]);
+        return Task.FromResult<SecretDto[]>([new (SecretType.Credential, "test-1"), new(SecretType.Credential, "test-2"), new(SecretType.Credential, "test-3")]);
     }
 
     public Task SaveAsync(CredentialCreationCommand credentialCreation)
