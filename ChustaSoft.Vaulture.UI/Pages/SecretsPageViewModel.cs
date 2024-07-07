@@ -30,7 +30,7 @@ public partial class SecretsPageViewModel : ObservableObject
         var connectionsSecrets = new ConcurrentBag<SecureConnectionSecretsViewModel>();
         
         foreach (var secureConnection in azureConnections.SelectMany(x => x.Value))
-            connectionsSecretsQueryTasks.Add(RetrieveSecrets(connectionsSecrets, secureConnection));
+            connectionsSecretsQueryTasks.Add(RetrieveSecrets(connectionsSecrets, secureConnection!));
 
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
@@ -50,7 +50,7 @@ public partial class SecretsPageViewModel : ObservableObject
     }
 
 
-    private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, string? secureConnection)
+    private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, string secureConnection)
     {
         var secrets = await _secretsService.GetAllAsync(secureConnection);
         connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));

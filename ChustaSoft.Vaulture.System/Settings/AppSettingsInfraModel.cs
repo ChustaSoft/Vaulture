@@ -7,7 +7,7 @@ public class AppSettingsInfraModel
 {
     public ThemeMode Theme { get; init; }
 
-    public List<SecureConnectionInfraModel> SecureConnections { get; init; }
+    public List<SecureConnectionInfraModel> SecureConnections { get; init; } = new List<SecureConnectionInfraModel>();
 
     public AppSettingsInfraModel() { }
 
@@ -30,7 +30,7 @@ public class AppSettingsInfraModel
 public class SecureConnectionInfraModel
 {
     public SecureConnectionType Type { get; init; }
-    public string Value { get; init; }
+    public string Value { get; init; } = null!;
 
 
     public SecureConnectionInfraModel() { }

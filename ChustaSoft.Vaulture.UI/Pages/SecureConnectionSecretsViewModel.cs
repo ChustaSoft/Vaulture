@@ -1,4 +1,7 @@
-﻿namespace ChustaSoft.Vaulture.UI.Pages;
+﻿using ChustaSoft.Vaulture.Application.Secrets;
+using System.Collections.ObjectModel;
+
+namespace ChustaSoft.Vaulture.UI.Pages;
 
 public partial class SecureConnectionSecretsViewModel : ObservableObject
 {
