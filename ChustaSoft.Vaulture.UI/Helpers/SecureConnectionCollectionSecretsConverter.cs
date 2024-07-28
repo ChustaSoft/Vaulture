@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace ChustaSoft.Vaulture.UI.Helpers;
 
-public class SecureConnectionCollectionSecrets : IValueConverter
+public class SecureConnectionCollectionSecretsConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
