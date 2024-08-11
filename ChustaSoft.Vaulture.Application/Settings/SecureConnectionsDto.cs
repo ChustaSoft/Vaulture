@@ -7,5 +7,5 @@ public record SecureConnectionsDto(SecureConnectionType Type, ObservableCollecti
 
 public record struct SecureConnectionValue(string Alias, string Value)
 {
-    public override String ToString() => $"{Alias} ({Value})";
+    public override string ToString() => $"{Alias} ({Value})";
 };

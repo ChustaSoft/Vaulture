@@ -7,7 +7,7 @@ public class SecureConnection
     public string Alias { get; init; }
     public string Value { get; init; }
 
-    public SecureConnection(SecureConnectionType type, string alias, String value)
+    public SecureConnection(SecureConnectionType type, string alias, string value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(alias);
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
