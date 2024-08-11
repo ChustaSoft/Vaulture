@@ -34,6 +34,9 @@ public partial class SettingsPageViewModel : ObservableObject
     private ObservableCollection<SecureConnectionsDto> secureConnections = new();
 
     [ObservableProperty]
+    private bool enableAddAction = false;
+
+    [ObservableProperty]
     private bool enableSaveAction = false;
 
 
@@ -67,7 +70,6 @@ public partial class SettingsPageViewModel : ObservableObject
     [RelayCommand]
     private void OnAddSecureConnection()
     {
-        //TODO: Disable button if is invalid
         if (!string.IsNullOrWhiteSpace(SecureConnectionAliasToAdd) && !string.IsNullOrWhiteSpace(SecureConnectionValueToAdd))
         {
             if (SecureConnections.Any(x => x.Type == SecureConnectionType.AzureVault))
@@ -98,6 +100,23 @@ public partial class SettingsPageViewModel : ObservableObject
 
         ThemeModeSelected = settings.Theme;
         SecureConnections = new ObservableCollection<SecureConnectionsDto>(settings.SecureConnections);
+    }
+
+
+    partial void OnSecureConnectionAliasToAddChanging(string value)
+    {
+        if (!string.IsNullOrEmpty(SecureConnectionValueToAdd) && !string.IsNullOrEmpty(value))
+            EnableAddAction = true;
+        else
+            EnableAddAction = false;
+    }
+
+    partial void OnSecureConnectionValueToAddChanging(string value)
+    {
+        if (!string.IsNullOrEmpty(SecureConnectionAliasToAdd) && !string.IsNullOrEmpty(value))
+            EnableAddAction = true;
+        else
+            EnableAddAction = false;
     }
 
 }

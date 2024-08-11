@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
 
-//TODO: Show the name of the connection in the proper format >> Alias (value)
 
 public partial class SecretsPageViewModel : ObservableObject
 {
