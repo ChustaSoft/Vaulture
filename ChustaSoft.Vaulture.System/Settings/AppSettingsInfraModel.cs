@@ -21,7 +21,7 @@ public class AppSettingsInfraModel
 
     public AppSettings ToEntity()
     {
-        return new AppSettings(Theme, SecureConnections.Select(x => new SecureConnection(x.Type, x.Value)).ToList());
+        return new AppSettings(Theme, SecureConnections.Select(x => new SecureConnection(x.Type, x.Alias, x.Value)).ToList());
     }
 }
 
@@ -30,6 +30,7 @@ public class AppSettingsInfraModel
 public class SecureConnectionInfraModel
 {
     public SecureConnectionType Type { get; init; }
+    public string Alias { get; init; } = null!;
     public string Value { get; init; } = null!;
 
 
@@ -39,6 +40,7 @@ public class SecureConnectionInfraModel
         : this()
     {
         Type = secureConnection.Type;
+        Alias = secureConnection.Alias;
         Value = secureConnection.Value;
     }
 }
