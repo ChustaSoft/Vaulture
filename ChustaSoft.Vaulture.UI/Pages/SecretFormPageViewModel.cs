@@ -27,7 +27,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     private bool enableSaveAction = false;
 
     [ObservableProperty]
-    private ObservableCollection<string> secureConnections = new ObservableCollection<string>();
+    private ObservableCollection<SecureConnectionValue> secureConnections = new ObservableCollection<SecureConnectionValue>();
 
     [ObservableProperty]
     private string? selectedConnection;
@@ -92,7 +92,7 @@ public partial class SecretFormPageViewModel : ObservableObject
          */
 
         var azureConnections = _appSettingsService.GetConnections(SecureConnectionType.AzureVault);
-        SecureConnections = new ObservableCollection<string>(azureConnections);
+        SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
         SecretTypes = new ObservableCollection<SecretType>(EnumsHelper.GetEnumList<SecretType>());
     }
 

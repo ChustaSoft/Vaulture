@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
 
+
 public partial class SecretsPageViewModel : ObservableObject
 {
 
@@ -50,9 +51,9 @@ public partial class SecretsPageViewModel : ObservableObject
     }
 
 
-    private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, string secureConnection)
+    private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
     {
-        var secrets = await _secretsService.GetAllAsync(secureConnection);
+        var secrets = await _secretsService.GetAllAsync(secureConnection.Value);
         connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));
     }
 }

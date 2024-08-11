@@ -25,10 +25,16 @@ public partial class SettingsPageViewModel : ObservableObject
     private ThemeMode themeModeSelected;
 
     [ObservableProperty]
-    private string secureConnectionToAdd = string.Empty;
+    private string secureConnectionAliasToAdd = string.Empty;
+
+    [ObservableProperty]
+    private string secureConnectionValueToAdd = string.Empty;
 
     [ObservableProperty]
     private ObservableCollection<SecureConnectionsDto> secureConnections = new();
+
+    [ObservableProperty]
+    private bool enableAddAction = false;
 
     [ObservableProperty]
     private bool enableSaveAction = false;
@@ -64,14 +70,15 @@ public partial class SettingsPageViewModel : ObservableObject
     [RelayCommand]
     private void OnAddSecureConnection()
     {
-        if (!string.IsNullOrWhiteSpace(SecureConnectionToAdd))
+        if (!string.IsNullOrWhiteSpace(SecureConnectionAliasToAdd) && !string.IsNullOrWhiteSpace(SecureConnectionValueToAdd))
         {
             if (SecureConnections.Any(x => x.Type == SecureConnectionType.AzureVault))
-                SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(SecureConnectionToAdd);
+                SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd));
             else
-                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionType.AzureVault, [SecureConnectionToAdd]));
+                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionType.AzureVault, [new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd)]));
 
-            SecureConnectionToAdd = string.Empty;
+            SecureConnectionAliasToAdd = string.Empty;
+            SecureConnectionValueToAdd = string.Empty;
             EnableSaveAction = true;
         }
     }
@@ -93,6 +100,23 @@ public partial class SettingsPageViewModel : ObservableObject
 
         ThemeModeSelected = settings.Theme;
         SecureConnections = new ObservableCollection<SecureConnectionsDto>(settings.SecureConnections);
+    }
+
+
+    partial void OnSecureConnectionAliasToAddChanging(string value)
+    {
+        if (!string.IsNullOrEmpty(SecureConnectionValueToAdd) && !string.IsNullOrEmpty(value))
+            EnableAddAction = true;
+        else
+            EnableAddAction = false;
+    }
+
+    partial void OnSecureConnectionValueToAddChanging(string value)
+    {
+        if (!string.IsNullOrEmpty(SecureConnectionAliasToAdd) && !string.IsNullOrEmpty(value))
+            EnableAddAction = true;
+        else
+            EnableAddAction = false;
     }
 
 }

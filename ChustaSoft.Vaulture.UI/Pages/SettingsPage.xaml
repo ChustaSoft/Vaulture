@@ -45,8 +45,9 @@
             <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Secure Connections" />
             <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Add Secure Connection" />
             <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultVerticalMargin}" >
-                <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionToAdd }" Width="400" />
-                <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Margin="{StaticResource DefaultHorizontalMargins}" Command="{Binding AddSecureConnectionCommand}" />
+                <ui:TextBox PlaceholderText="Add a name/alias for this connection" Text="{Binding SecureConnectionAliasToAdd }" Width="300" />
+                <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionValueToAdd }" Width="350" Margin="{StaticResource DefaultHorizontalMargins}" />
+                <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Command="{Binding AddSecureConnectionCommand}" IsEnabled="{Binding EnableAddAction}" />
             </StackPanel>
 
             <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Configured connections" />

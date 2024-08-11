@@ -9,8 +9,8 @@ public interface IAppSettingsService
 {
     Task<AppSettingsDto> LoadAsync();
     Task SaveAsync(SettingsSaveCommand command);
-    Task<IDictionary<SecureConnectionType, IEnumerable<String>>> GetConnectionsAsync();
-    IEnumerable<string> GetConnections(SecureConnectionType azureVault);
+    Task<IDictionary<SecureConnectionType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync();
+    IEnumerable<SecureConnectionValue> GetConnections(SecureConnectionType connectionType);
 }
 
 
@@ -46,7 +46,7 @@ public class AppSettingsService : IAppSettingsService
         {
             var secureConnections = new List<SecureConnection>();
             foreach (var secureType in command.SecureSettings)
-                secureConnections.AddRange(secureType.Values.Select(x => new SecureConnection(secureType.Type, x)));
+                secureConnections.AddRange(secureType.Values.Select(x => new SecureConnection(secureType.Type, x.Alias, x.Value)));
 
             _appSettings = new AppSettings(command.Theme, secureConnections);
 
@@ -54,7 +54,7 @@ public class AppSettingsService : IAppSettingsService
         });
     }
 
-    public async Task<IDictionary<SecureConnectionType, IEnumerable<String>>> GetConnectionsAsync()
+    public async Task<IDictionary<SecureConnectionType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync()
     {
         return await Task.Run(() =>
         {
@@ -62,22 +62,22 @@ public class AppSettingsService : IAppSettingsService
 
             return _appSettings.SecureConnections
                 .GroupBy(x => x.Type)
-                .ToDictionary(x => x.Key, y => y.Select(z => z.Value));
+                .ToDictionary(x => x.Key, y => y.Select(z => new SecureConnectionValue(z.Alias, z.Value)));
         });
     }
 
-    public IEnumerable<string> GetConnections(SecureConnectionType connectionType)
+    public IEnumerable<SecureConnectionValue> GetConnections(SecureConnectionType connectionType)
     {
         return _appSettings.SecureConnections
-            .Where(x => x.Type == connectionType)
-            .Select(x => x.Value);
+                .Where(x => x.Type == connectionType)
+                .Select(x => new SecureConnectionValue(x.Alias, x.Value));
     }
 
 
     private IEnumerable<SecureConnectionsDto> GetElements(AppSettings appSettings)
     {
         foreach (var group in appSettings.SecureConnections.GroupBy(x => x.Type))
-            yield return new SecureConnectionsDto(group.Key, new ObservableCollection<string>(group.Select(x => x.Value)));
+            yield return new SecureConnectionsDto(group.Key, new ObservableCollection<SecureConnectionValue>(group.Select(x => new SecureConnectionValue(x.Alias, x.Value))));
     }
 
     private void PerformLoadingSettings()

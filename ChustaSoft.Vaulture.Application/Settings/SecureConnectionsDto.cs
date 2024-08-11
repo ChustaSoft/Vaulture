@@ -3,4 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.Application.Settings;
 
-public record SecureConnectionsDto(SecureConnectionType Type, ObservableCollection<string> Values);
+public record SecureConnectionsDto(SecureConnectionType Type, ObservableCollection<SecureConnectionValue> Values);
+
+public record struct SecureConnectionValue(string Alias, string Value)
+{
+    public override string ToString() => $"{Alias} ({Value})";
+};

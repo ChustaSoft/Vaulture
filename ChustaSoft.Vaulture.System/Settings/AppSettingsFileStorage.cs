@@ -8,7 +8,7 @@ namespace ChustaSoft.Vaulture.LocalSystem.Settings;
 public class AppSettingsFileStorage : IAppSettingsStorage
 {
 
-    private const String SETTINGS_XML_FILE = "vaulture-settings.xml";
+    private const string SETTINGS_XML_FILE = "vaulture-settings.xml";
 
 
     public AppSettings Load()
