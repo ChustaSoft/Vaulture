@@ -23,7 +23,7 @@ public partial class MainWindowViewModel : ObservableObject
     private ObservableCollection<MenuItem> _trayMenuItems = [];
 
 
-    public MainWindowViewModel(INavigationService navigationService)
+    public MainWindowViewModel()
     {
         if (!_isInitialized)
         {
