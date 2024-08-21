@@ -5,10 +5,8 @@ namespace ChustaSoft.Vaulture.UI.Pages;
 
 public partial class SecretPage : Page
 {
-    public SecretPage(SecretPageViewModel viewModel)
+    public SecretPage()
     {
-        DataContext = viewModel;
-
         InitializeComponent();
     }
 }

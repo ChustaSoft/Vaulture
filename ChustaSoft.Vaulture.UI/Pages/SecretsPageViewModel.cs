@@ -44,7 +44,8 @@ public partial class SecretsPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnViewSecret(SecretDto secret)
     {
-        _navigationService.Navigate(typeof(SecretPage));
+        var viewModel = new SecretPageViewModel { Credential = new CredentialDto("TEST - X", "TEST - X", "PWD") }; //TODO: Retrieve credentials data from service
+        _navigationService.Navigate(typeof(SecretPage), viewModel);
 
         await Task.CompletedTask;
     }
