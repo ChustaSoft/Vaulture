@@ -11,13 +11,16 @@ public partial class SecretsPageViewModel : ObservableObject
 
     private readonly IAppSettingsService _appSettingsService;
     private readonly ISecretsService _secretsService;
+    private readonly INavigationService _navigationService;
 
 
-    public SecretsPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService)
+    public SecretsPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService)
     {
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;
+        _navigationService = navigationService;
     }
+
 
     [ObservableProperty]
     private ObservableCollection<SecureConnectionSecretsViewModel> secureConnections = new ObservableCollection<SecureConnectionSecretsViewModel>();
@@ -41,6 +44,8 @@ public partial class SecretsPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnViewSecret(SecretDto secret)
     {
+        _navigationService.Navigate(typeof(SecretPage));
+
         await Task.CompletedTask;
     }
 

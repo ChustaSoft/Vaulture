@@ -46,6 +46,9 @@
 		<Compile Update="Pages\SecretFormPageViewModel.cs">
 			<DependentUpon>SecretFormPage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Pages\SecretPageViewModel.cs">
+			<DependentUpon>SecretPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 </Project>
