@@ -4,7 +4,7 @@ namespace ChustaSoft.Vaulture.UI.Pages;
 
 
 public partial class SecretsPage : Page
-{    
+{
 
     public SecretsPage(SecretsPageViewModel viewModel)
     {

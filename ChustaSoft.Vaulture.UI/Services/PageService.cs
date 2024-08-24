@@ -1,11 +1,9 @@
-﻿using Wpf.Ui;
-
-namespace ChustaSoft.Vaulture.UI.Services;
+﻿namespace ChustaSoft.Vaulture.UI.Services;
 
 
 public class PageService : IPageService
 {
-    
+
     private readonly IServiceProvider _serviceProvider;
 
 

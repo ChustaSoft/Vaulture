@@ -9,6 +9,6 @@ public record CredentialCreationCommand
 
     public bool IsValid()
     {
-        return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Key) && !string.IsNullOrWhiteSpace(Password); 
+        return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Key) && !string.IsNullOrWhiteSpace(Password);
     }
 }

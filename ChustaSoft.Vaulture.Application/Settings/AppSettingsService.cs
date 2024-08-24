@@ -87,7 +87,7 @@ public class AppSettingsService : IAppSettingsService
             if (_appSettings is null)
                 _appSettings = _appSettingsStorage.Load();
         }
-        catch (FileNotFoundException fnfe)
+        catch (FileNotFoundException)
         {
             //TODO Log error
             _appSettings = new AppSettings();

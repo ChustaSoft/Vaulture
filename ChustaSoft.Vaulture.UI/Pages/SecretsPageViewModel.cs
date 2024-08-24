@@ -32,7 +32,7 @@ public partial class SecretsPageViewModel : ObservableObject
         var azureConnections = await _appSettingsService.GetConnectionsAsync();
         var connectionsSecretsQueryTasks = new List<Task>();
         var connectionsSecrets = new ConcurrentBag<SecureConnectionSecretsViewModel>();
-        
+
         foreach (var secureConnection in azureConnections.SelectMany(x => x.Value))
             connectionsSecretsQueryTasks.Add(RetrieveSecrets(connectionsSecrets, secureConnection!));
 

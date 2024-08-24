@@ -27,7 +27,7 @@ public class AppSettingsFileStorage : IAppSettingsStorage
         var infraModel = new AppSettingsInfraModel(settings);
 
         XmlSerializer serializer = new XmlSerializer(typeof(AppSettingsInfraModel));
-        
+
         using TextWriter writer = new StreamWriter(SETTINGS_XML_FILE);
 
         serializer.Serialize(writer, infraModel);
