@@ -3,6 +3,7 @@ using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.UI.Services;
 using System.Collections.ObjectModel;
 using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSaveCommand;
+using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
 
@@ -22,7 +23,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private ThemeMode themeModeSelected;
+    private Domain.Settings.ThemeMode themeModeSelected;
 
     [ObservableProperty]
     private string secureConnectionAliasToAdd = string.Empty;

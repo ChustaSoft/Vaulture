@@ -19,7 +19,7 @@ public class AppSettingsService : IAppSettingsService
 
     private readonly IAppSettingsStorage _appSettingsStorage;
 
-    private AppSettings _appSettings;
+    private AppSettings _appSettings = null!;
 
 
     public AppSettingsService(IAppSettingsStorage appSettingsStorage)

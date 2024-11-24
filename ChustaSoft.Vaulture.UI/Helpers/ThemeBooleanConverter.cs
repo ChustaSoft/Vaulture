@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Vaulture.Domain.Settings;
 using System.Globalization;
 using System.Windows.Data;
+using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
 namespace ChustaSoft.Vaulture.UI.Helpers;
 
