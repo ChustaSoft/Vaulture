@@ -1,5 +1,4 @@
-﻿using ChustaSoft.Vaulture.Domain.Settings;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Wpf.Ui.Appearance;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 

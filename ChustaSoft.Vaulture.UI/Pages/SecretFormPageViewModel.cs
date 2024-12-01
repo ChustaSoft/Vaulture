@@ -2,7 +2,6 @@
 using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.UI.Models;
 using ChustaSoft.Vaulture.UI.Settings;
 using System.Collections.ObjectModel;

@@ -1,5 +1,4 @@
-﻿using ChustaSoft.Vaulture.Domain.Settings;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 

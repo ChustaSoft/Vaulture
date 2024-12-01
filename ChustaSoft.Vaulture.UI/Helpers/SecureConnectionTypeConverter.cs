@@ -1,6 +1,5 @@
 ﻿using ChustaSoft.Common.Helpers;
 using ChustaSoft.Vaulture.Domain.Settings;
-using ChustaSoft.Vaulture.UI.Pages;
 using System.Globalization;
 using System.Windows.Data;
 
