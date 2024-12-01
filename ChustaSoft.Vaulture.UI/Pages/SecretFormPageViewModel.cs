@@ -4,6 +4,7 @@ using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.UI.Models;
+using ChustaSoft.Vaulture.UI.Settings;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
@@ -53,6 +54,12 @@ public partial class SecretFormPageViewModel : ObservableObject
     [ObservableProperty]
     private string visiblePassword = string.Empty;
 
+    [ObservableProperty]
+    private SecureConnectionTypesModel secureConnectionTypes = SecureConnectionTypesProvider.Values;
+
+    [ObservableProperty]
+    private SecureConnectionTypeModel secureConnectionTypeSelected = SecureConnectionTypesProvider.Default;
+
     private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
 
 
@@ -84,16 +91,15 @@ public partial class SecretFormPageViewModel : ObservableObject
     [RelayCommand]
     public void OnLoad()
     {
-        /* 
-         * TODO: 
-         * By the moment, only Azure is supported, so its forced to load values of Azure when loading
-         * In a final version with multiple providers support, it might 
-         * Alternatively, we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
-         */
-
-        var azureConnections = _appSettingsService.GetConnections(SecureConnectionType.AzureKeyVault);
-        SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
+        FilterSecureConnectionsByCurrentSelection();
         SecretTypes = new ObservableCollection<SecretType>(EnumsHelper.GetEnumList<SecretType>());
+    }
+
+
+    [RelayCommand]
+    private void OnSecureConnectionTypeChanged()
+    {
+        FilterSecureConnectionsByCurrentSelection();
     }
 
     [RelayCommand]
@@ -104,6 +110,13 @@ public partial class SecretFormPageViewModel : ObservableObject
         ResetForm();
     }
 
+    private void FilterSecureConnectionsByCurrentSelection()
+    {
+        //TODO (NTH) , we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
+
+        var azureConnections = _appSettingsService.GetConnections(SecureConnectionTypeSelected.Type);
+        SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
+    }
 
     private void ResetForm()
     {
@@ -116,4 +129,5 @@ public partial class SecretFormPageViewModel : ObservableObject
         _credentialCreationCommand = new CredentialCreationCommand();
         EnableSaveAction = false;
     }
+
 }
