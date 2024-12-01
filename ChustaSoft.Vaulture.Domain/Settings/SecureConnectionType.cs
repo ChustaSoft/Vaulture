@@ -1,6 +1,12 @@
-﻿namespace ChustaSoft.Vaulture.Domain.Settings;
+﻿using System.ComponentModel;
+
+namespace ChustaSoft.Vaulture.Domain.Settings;
 
 public enum SecureConnectionType
 {
-    AzureVault
+    [Description("Local File")]
+    LocalFile = 0,
+
+    [Description("Azure Key Vault")]
+    AzureKeyVault
 }

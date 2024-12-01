@@ -91,7 +91,7 @@ public partial class SecretFormPageViewModel : ObservableObject
          * Alternatively, we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
          */
 
-        var azureConnections = _appSettingsService.GetConnections(SecureConnectionType.AzureVault);
+        var azureConnections = _appSettingsService.GetConnections(SecureConnectionType.AzureKeyVault);
         SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
         SecretTypes = new ObservableCollection<SecretType>(EnumsHelper.GetEnumList<SecretType>());
     }

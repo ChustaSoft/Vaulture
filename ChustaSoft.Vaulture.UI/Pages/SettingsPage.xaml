@@ -15,6 +15,7 @@
 
     <Page.Resources>
         <helpers:ThemeBooleanConverter x:Key="ThemeBooleanConverter" />
+        <helpers:SecureConnectionTypeConverter x:Key="SecureConnectionTypeConverter" />
     </Page.Resources>
 
     <b:Interaction.Triggers>
@@ -45,8 +46,9 @@
             <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Secure Connections" />
             <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Add Secure Connection" />
             <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultVerticalMargin}" >
-                <ui:TextBox PlaceholderText="Add a name/alias for this connection" Text="{Binding SecureConnectionAliasToAdd }" Width="300" />
-                <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionValueToAdd }" Width="350" Margin="{StaticResource DefaultHorizontalMargins}" />
+                <ComboBox ItemsSource="{Binding SecureConnectionTypes}" SelectedItem="{Binding SecureConnectionTypeSelected}" Width="150" Margin="{StaticResource DefaultHorizontalSeparation}" />
+                <ui:TextBox PlaceholderText="Add a name/alias for this connection" Text="{Binding SecureConnectionAliasToAdd }" Width="250" Margin="{StaticResource DefaultHorizontalSeparation}" />
+                <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionValueToAdd }" Width="350" Margin="{StaticResource DefaultHorizontalSeparation}" />
                 <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Command="{Binding AddSecureConnectionCommand}" IsEnabled="{Binding EnableAddAction}" />
             </StackPanel>
 
@@ -54,10 +56,10 @@
             <TreeView ItemsSource="{Binding SecureConnections}">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type module:SecureConnectionsDto}" ItemsSource="{Binding Values}">
-                        <TextBlock Text="{Binding Type}" />
+                        <TextBlock Text="{Binding Type, Converter={StaticResource SecureConnectionTypeConverter}}" />
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type sys:String}">
-                        <TextBlock Text="{Binding}" />
+                        <TextBlock Text="{Binding .}" />
                     </DataTemplate>
                 </TreeView.Resources>
             </TreeView>

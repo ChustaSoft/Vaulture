@@ -1,14 +1,12 @@
 ﻿using ChustaSoft.Vaulture.Application.Settings;
-using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.UI.Services;
+using ChustaSoft.Vaulture.UI.Settings;
 using System.Collections.ObjectModel;
-using SettingsSaveCommand = ChustaSoft.Vaulture.Application.Settings.SettingsSaveCommand;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
 namespace ChustaSoft.Vaulture.UI.Pages;
 
 
-//TODO: By the moment, only Azure Vaults are supported
 public partial class SettingsPageViewModel : ObservableObject
 {
 
@@ -39,6 +37,12 @@ public partial class SettingsPageViewModel : ObservableObject
 
     [ObservableProperty]
     private bool enableSaveAction = false;
+
+    [ObservableProperty]
+    private SecureConnectionTypesModel secureConnectionTypes = SecureConnectionTypesProvider.Values;
+
+    [ObservableProperty]
+    private SecureConnectionTypeModel secureConnectionTypeSelected = SecureConnectionTypesProvider.Default;
 
 
     [RelayCommand]
@@ -73,10 +77,10 @@ public partial class SettingsPageViewModel : ObservableObject
     {
         if (!string.IsNullOrWhiteSpace(SecureConnectionAliasToAdd) && !string.IsNullOrWhiteSpace(SecureConnectionValueToAdd))
         {
-            if (SecureConnections.Any(x => x.Type == SecureConnectionType.AzureVault))
-                SecureConnections.First(x => x.Type == SecureConnectionType.AzureVault).Values.Add(new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd));
+            if (SecureConnections.Any(x => x.Type == SecureConnectionTypeSelected.Type))
+                SecureConnections.First(x => x.Type == SecureConnectionTypeSelected.Type).Values.Add(new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd));
             else
-                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionType.AzureVault, [new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd)]));
+                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionTypeSelected.Type, [new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd)]));
 
             SecureConnectionAliasToAdd = string.Empty;
             SecureConnectionValueToAdd = string.Empty;

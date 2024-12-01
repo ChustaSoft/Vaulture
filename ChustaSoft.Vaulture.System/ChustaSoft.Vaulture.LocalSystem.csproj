@@ -10,4 +10,8 @@
 		<ProjectReference Include="..\ChustaSoft.Vaulture.Domain\ChustaSoft.Vaulture.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Secrets\" />
+	</ItemGroup>
+
 </Project>
