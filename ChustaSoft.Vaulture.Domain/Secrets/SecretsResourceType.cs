@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace ChustaSoft.Vaulture.Domain.Settings;
+namespace ChustaSoft.Vaulture.Domain.Secrets;
 
-public enum SecureConnectionType
+public enum SecretsResourceType
 {
     [Description("Local File")]
     LocalFile = 0,

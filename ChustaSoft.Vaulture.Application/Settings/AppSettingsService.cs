@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Vaulture.Domain.Settings;
+﻿using ChustaSoft.Vaulture.Domain.Secrets;
+using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.Application.Settings;
@@ -8,8 +9,8 @@ public interface IAppSettingsService
 {
     Task<AppSettingsDto> LoadAsync();
     Task SaveAsync(SettingsSaveCommand command);
-    Task<IDictionary<SecureConnectionType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync();
-    IEnumerable<SecureConnectionValue> GetConnections(SecureConnectionType connectionType);
+    Task<IDictionary<SecretsResourceType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync();
+    IEnumerable<SecureConnectionValue> GetConnections(SecretsResourceType connectionType);
 }
 
 
@@ -53,7 +54,7 @@ public class AppSettingsService : IAppSettingsService
         });
     }
 
-    public async Task<IDictionary<SecureConnectionType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync()
+    public async Task<IDictionary<SecretsResourceType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync()
     {
         return await Task.Run(() =>
         {
@@ -65,7 +66,7 @@ public class AppSettingsService : IAppSettingsService
         });
     }
 
-    public IEnumerable<SecureConnectionValue> GetConnections(SecureConnectionType connectionType)
+    public IEnumerable<SecureConnectionValue> GetConnections(SecretsResourceType connectionType)
     {
         return _appSettings.SecureConnections
                 .Where(x => x.Type == connectionType)

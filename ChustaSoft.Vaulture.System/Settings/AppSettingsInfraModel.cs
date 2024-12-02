@@ -1,4 +1,5 @@
-﻿using ChustaSoft.Vaulture.Domain.Settings;
+﻿using ChustaSoft.Vaulture.Domain.Secrets;
+using ChustaSoft.Vaulture.Domain.Settings;
 
 namespace ChustaSoft.Vaulture.LocalSystem.Settings;
 
@@ -29,7 +30,7 @@ public class AppSettingsInfraModel
 
 public class SecureConnectionInfraModel
 {
-    public SecureConnectionType Type { get; init; }
+    public SecretsResourceType Type { get; init; }
     public string Alias { get; init; } = null!;
     public string Value { get; init; } = null!;
 

@@ -1,5 +1,5 @@
 ﻿using ChustaSoft.Common.Helpers;
-using ChustaSoft.Vaulture.Domain.Settings;
+using ChustaSoft.Vaulture.Domain.Secrets;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -9,7 +9,7 @@ public class SecureConnectionTypeConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
-        var castedObject = (SecureConnectionType)value;
+        var castedObject = (SecretsResourceType)value;
 
         return castedObject.GetDescription();
     }

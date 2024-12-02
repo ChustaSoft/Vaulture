@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
+using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.LocalSystem.Settings;
 using ChustaSoft.Vaulture.UI.About;
@@ -54,6 +55,17 @@ public partial class App
                 _ = services.AddScoped<ISecretsService, SecretsService>();
 
                 _ = services.AddScoped<IAppSettingsStorage, AppSettingsFileStorage>();
+                _ = services.AddScoped<LocalFileSecretsStorageService>();
+
+                _ = services.AddScoped<SecretsStorageServiceResolver>(serviceProvider => resourceType =>
+                {
+                    return resourceType switch
+                    {
+                        SecretsResourceType.LocalFile => serviceProvider.GetService<LocalFileSecretsStorageService>()!,
+                        
+                        _ => throw new ArgumentException("Unable to resolve the requested storage service: Invalid resource type")
+                    };
+                });
             }
         )
         .Build();

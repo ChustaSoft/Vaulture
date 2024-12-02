@@ -53,10 +53,10 @@ public partial class SecretFormPageViewModel : ObservableObject
     private string visiblePassword = string.Empty;
 
     [ObservableProperty]
-    private SecureConnectionTypesModel secureConnectionTypes = SecureConnectionTypesProvider.Values;
+    private SecureConnectionTypesModel resourceTypes = SecureConnectionTypesProvider.Values;
 
     [ObservableProperty]
-    private SecureConnectionTypeModel secureConnectionTypeSelected = SecureConnectionTypesProvider.Default;
+    private SecureConnectionTypeModel resourceTypeSelected = SecureConnectionTypesProvider.Default;
 
     private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
 
@@ -95,7 +95,7 @@ public partial class SecretFormPageViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void OnSecureConnectionTypeChanged()
+    private void OnResourceTypeChanged()
     {
         FilterSecureConnectionsByCurrentSelection();
     }
@@ -103,7 +103,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnSaveAsync()
     {
-        await _secretsService.SaveAsync(_credentialCreationCommand);
+        await _secretsService.SaveAsync(ResourceTypeSelected.Type, SelectedConnection!, _credentialCreationCommand);
 
         ResetForm();
     }
@@ -112,7 +112,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     {
         //TODO (NTH) , we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
 
-        var azureConnections = _appSettingsService.GetConnections(SecureConnectionTypeSelected.Type);
+        var azureConnections = _appSettingsService.GetConnections(ResourceTypeSelected.Type);
         SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
     }
 
