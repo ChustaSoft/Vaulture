@@ -2,8 +2,10 @@
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Settings;
 using ChustaSoft.Vaulture.LocalSystem.Settings;
-using ChustaSoft.Vaulture.UI.Pages;
-using ChustaSoft.Vaulture.UI.Services;
+using ChustaSoft.Vaulture.UI.About;
+using ChustaSoft.Vaulture.UI.Common;
+using ChustaSoft.Vaulture.UI.Secrets;
+using ChustaSoft.Vaulture.UI.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

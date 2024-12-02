@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
-namespace ChustaSoft.Vaulture.UI.Helpers;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 
 public class ThemeBooleanConverter : IValueConverter

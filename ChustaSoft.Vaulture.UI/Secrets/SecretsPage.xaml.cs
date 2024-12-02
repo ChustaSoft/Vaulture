@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ChustaSoft.Vaulture.UI.Pages;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
 public partial class SecretsPage : Page

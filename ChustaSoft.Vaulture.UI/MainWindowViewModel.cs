@@ -1,4 +1,4 @@
-﻿using ChustaSoft.Vaulture.UI.Configuration;
+﻿using ChustaSoft.Vaulture.UI.Common;
 using System.Collections.ObjectModel;
 using Wpf.Ui.Controls;
 
@@ -39,13 +39,13 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 Content = AppConstants.Pages.SECRETS,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Key24 },
-                TargetPageType = typeof(Pages.SecretsPage)
+                TargetPageType = typeof(Secrets.SecretsPage)
             },
             new NavigationViewItem()
             {
                 Content = AppConstants.Pages.ADD_SECRET,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Add24 },
-                TargetPageType = typeof(Pages.SecretFormPage)
+                TargetPageType = typeof(Secrets.SecretFormPage)
             }
         ];
 
@@ -55,13 +55,13 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 Content = AppConstants.Pages.ABOUT,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Info24 },
-                TargetPageType = typeof(Pages.AboutPage)
+                TargetPageType = typeof(About.AboutPage)
             },
             new NavigationViewItem()
             {
                 Content = AppConstants.Pages.SETTINGS,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
-                TargetPageType = typeof(Pages.SettingsPage)
+                TargetPageType = typeof(Settings.SettingsPage)
             },
         ];
 

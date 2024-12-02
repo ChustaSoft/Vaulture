@@ -1,4 +1,4 @@
-﻿namespace ChustaSoft.Vaulture.UI.Pages;
+﻿namespace ChustaSoft.Vaulture.UI.Settings;
 
 public partial class SettingsPage
 {
@@ -8,5 +8,4 @@ public partial class SettingsPage
 
         InitializeComponent();
     }
-
 }

@@ -3,7 +3,7 @@ using ChustaSoft.Vaulture.Domain.Settings;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Helpers;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 public class SecureConnectionTypeConverter : IValueConverter
 {
@@ -11,7 +11,7 @@ public class SecureConnectionTypeConverter : IValueConverter
     {
         var castedObject = (SecureConnectionType)value;
 
-        return EnumsHelper.GetDescription(castedObject);
+        return castedObject.GetDescription();
     }
 
     public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)

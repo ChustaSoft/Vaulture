@@ -1,10 +1,9 @@
 ﻿using ChustaSoft.Vaulture.Application.Settings;
-using ChustaSoft.Vaulture.UI.Services;
-using ChustaSoft.Vaulture.UI.Settings;
+using ChustaSoft.Vaulture.UI.Common;
 using System.Collections.ObjectModel;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
-namespace ChustaSoft.Vaulture.UI.Pages;
+namespace ChustaSoft.Vaulture.UI.Settings;
 
 
 public partial class SettingsPageViewModel : ObservableObject

@@ -1,9 +1,9 @@
 ﻿using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.UI.Models;
+using ChustaSoft.Vaulture.UI.Secrets;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Helpers;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 
 public class SecretTypeVisibilityConverter : IValueConverter

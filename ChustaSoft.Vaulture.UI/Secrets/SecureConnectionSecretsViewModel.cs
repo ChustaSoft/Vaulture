@@ -2,7 +2,7 @@
 using ChustaSoft.Vaulture.Application.Settings;
 using System.Collections.ObjectModel;
 
-namespace ChustaSoft.Vaulture.UI.Pages;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 public partial class SecureConnectionSecretsViewModel : ObservableObject
 {

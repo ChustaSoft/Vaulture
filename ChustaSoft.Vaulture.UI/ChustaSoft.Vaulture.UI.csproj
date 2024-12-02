@@ -37,16 +37,16 @@
 		<Compile Update="MainWindowViewModel.cs">
 			<DependentUpon>MainWindow.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Pages\SettingsPageViewModel.cs">
+		<Compile Update="Settings\SettingsPageViewModel.cs">
 			<DependentUpon>SettingsPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Pages\SecretsPageViewModel.cs">
+		<Compile Update="Secrets\SecretsPageViewModel.cs">
 			<DependentUpon>SecretsPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Pages\SecretFormPageViewModel.cs">
+		<Compile Update="Secrets\SecretFormPageViewModel.cs">
 			<DependentUpon>SecretFormPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Pages\SecretPageViewModel.cs">
+		<Compile Update="Secrets\SecretPageViewModel.cs">
 			<DependentUpon>SecretPage.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>

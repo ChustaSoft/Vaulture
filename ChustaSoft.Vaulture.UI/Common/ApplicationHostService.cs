@@ -1,8 +1,8 @@
-using ChustaSoft.Vaulture.UI.Pages;
+using ChustaSoft.Vaulture.UI.Secrets;
 using Microsoft.Extensions.Hosting;
 
 
-namespace ChustaSoft.Vaulture.UI.Services;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 
 public class ApplicationHostService : IHostedService

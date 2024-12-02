@@ -1,4 +1,4 @@
-﻿namespace ChustaSoft.Vaulture.UI.Configuration;
+﻿namespace ChustaSoft.Vaulture.UI.Common;
 
 public static class AppConstants
 {

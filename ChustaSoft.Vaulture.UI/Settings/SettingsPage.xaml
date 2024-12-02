@@ -1,4 +1,4 @@
-﻿<Page x:Class="ChustaSoft.Vaulture.UI.Pages.SettingsPage"
+﻿<Page x:Class="ChustaSoft.Vaulture.UI.Settings.SettingsPage"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
@@ -7,15 +7,15 @@
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
             xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
-            xmlns:helpers="clr-namespace:ChustaSoft.Vaulture.UI.Helpers"
+            xmlns:common="clr-namespace:ChustaSoft.Vaulture.UI.Common"
             Title="Settings"
             d:DesignHeight="450"
             d:DesignWidth="800"
             mc:Ignorable="d">
 
     <Page.Resources>
-        <helpers:ThemeBooleanConverter x:Key="ThemeBooleanConverter" />
-        <helpers:SecureConnectionTypeConverter x:Key="SecureConnectionTypeConverter" />
+        <common:ThemeBooleanConverter x:Key="ThemeBooleanConverter" />
+        <common:SecureConnectionTypeConverter x:Key="SecureConnectionTypeConverter" />
     </Page.Resources>
 
     <b:Interaction.Triggers>

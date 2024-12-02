@@ -1,4 +1,4 @@
-﻿namespace ChustaSoft.Vaulture.UI.Services;
+﻿namespace ChustaSoft.Vaulture.UI.Common;
 
 
 public class PageService : IPageService

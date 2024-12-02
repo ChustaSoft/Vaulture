@@ -2,7 +2,7 @@
 using Wpf.Ui.Appearance;
 using ThemeMode = ChustaSoft.Vaulture.Domain.Settings.ThemeMode;
 
-namespace ChustaSoft.Vaulture.UI.Services;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 
 public interface IThemeManager

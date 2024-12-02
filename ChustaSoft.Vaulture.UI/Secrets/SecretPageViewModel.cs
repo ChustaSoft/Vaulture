@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 
-namespace ChustaSoft.Vaulture.UI.Pages;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 public partial class SecretPageViewModel : ObservableObject
 {

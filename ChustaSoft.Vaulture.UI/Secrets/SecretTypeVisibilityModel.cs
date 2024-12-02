@@ -1,6 +1,6 @@
 ﻿using ChustaSoft.Vaulture.Domain.Secrets;
 
-namespace ChustaSoft.Vaulture.UI.Models;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
 public struct SecretTypeVisibilityModel

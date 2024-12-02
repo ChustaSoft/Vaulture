@@ -1,5 +1,4 @@
-﻿
-using ChustaSoft.Vaulture.Domain.Settings;
+﻿using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.Application.Settings;

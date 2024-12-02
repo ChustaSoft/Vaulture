@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Helpers;
+namespace ChustaSoft.Vaulture.UI.Common;
 
 public class EmptyCollectionVisibilityConverter : IValueConverter
 {
