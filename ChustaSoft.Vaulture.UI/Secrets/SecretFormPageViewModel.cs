@@ -29,7 +29,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     private ObservableCollection<SecureConnectionValue> secureConnections = new ObservableCollection<SecureConnectionValue>();
 
     [ObservableProperty]
-    private string? selectedConnection;
+    private SecureConnectionValue? secureConnectionValueSelected;
 
     [ObservableProperty]
     private ObservableCollection<SecretType> secretTypes = new ObservableCollection<SecretType>();
@@ -61,11 +61,11 @@ public partial class SecretFormPageViewModel : ObservableObject
     private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
 
 
-    partial void OnSelectedConnectionChanged(string? value)
-        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value };
+    partial void OnSecureConnectionValueSelectedChanged(SecureConnectionValue? value)
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value.ToString() };
 
     partial void OnSelectedSecretTypeChanged(SecretType? value)
-        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SelectedConnection = SelectedConnection };
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SelectedConnection = SecureConnectionValueSelected!.Value.Value };
 
     partial void OnNameChanged(string value)
     {
@@ -103,7 +103,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnSaveAsync()
     {
-        await _secretsService.SaveAsync(ResourceTypeSelected.Type, SelectedConnection!, _credentialCreationCommand);
+        await _secretsService.SaveAsync(ResourceTypeSelected.Type, SecureConnectionValueSelected!.Value.Value, _credentialCreationCommand);
 
         ResetForm();
     }
@@ -119,7 +119,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     private void ResetForm()
     {
         SelectedSecretType = null;
-        SelectedConnection = null;
+        SecureConnectionValueSelected = null;
         Name = string.Empty;
         Key = string.Empty;
         Password = string.Empty;
