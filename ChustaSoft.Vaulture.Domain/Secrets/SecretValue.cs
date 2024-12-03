@@ -8,6 +8,11 @@ public record SecretValue
     public string Value { get; init; }
 
 
+    internal SecretValue(string value)
+    {
+        Value = value;
+    }
+
     public SecretValue(string key, string password)
     {
         if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(password))

@@ -1,5 +1,6 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
+using ChustaSoft.Vaulture.Domain.Secrets;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
@@ -29,12 +30,13 @@ public partial class SecretsPageViewModel : ObservableObject
     [RelayCommand]
     public async Task OnLoadAsync()
     {
-        var azureConnections = await _appSettingsService.GetConnectionsAsync();
+        var secureConnections = await _appSettingsService.GetConnectionsAsync();
         var connectionsSecretsQueryTasks = new List<Task>();
         var connectionsSecrets = new ConcurrentBag<SecureConnectionSecretsViewModel>();
 
-        foreach (var secureConnection in azureConnections.SelectMany(x => x.Value))
-            connectionsSecretsQueryTasks.Add(RetrieveSecrets(connectionsSecrets, secureConnection!));
+        foreach (var secureConnectionTypes in secureConnections)
+            foreach (var secureConnection in secureConnectionTypes.Value)
+                connectionsSecretsQueryTasks.Add(RetrieveSecrets(secureConnectionTypes.Key, connectionsSecrets, secureConnection!));
 
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
@@ -59,9 +61,9 @@ public partial class SecretsPageViewModel : ObservableObject
     }
 
 
-    private async Task RetrieveSecrets(ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
+    private async Task RetrieveSecrets(SecretsResourceType resourceType, ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
     {
-        var secrets = await _secretsService.GetAllAsync(secureConnection.Value);
+        var secrets = await _secretsService.GetAllAsync(resourceType, secureConnection.Value);
         connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));
     }
 }

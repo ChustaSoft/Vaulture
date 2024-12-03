@@ -5,16 +5,23 @@ public class Secret
 
     public SecretType Type { get; init; }
     public string Name { get; set; }
-    public SecretValue Value { get; set; }
+    public SecretValue Value { get; set; } = null!;
 
 
-    internal Secret(string name)
+    internal Secret(SecretType type, string name)
     {
+        Type = type;
         Name = name;
     }
 
-    public Secret(string name, string key, string password)
-        : this(name)
+    public Secret(SecretType type, string name, string value)
+        : this(type, name)
+    {
+        Value = new SecretValue(value);
+    }
+
+    public Secret(SecretType type, string name, string key, string password)
+       : this(type, name)
     {
         Value = new SecretValue(key, password);
     }
