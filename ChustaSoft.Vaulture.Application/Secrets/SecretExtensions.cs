@@ -5,7 +5,12 @@ namespace ChustaSoft.Vaulture.Application.Secrets;
 public static class SecretExtensions
 {
 
-    public static SecretDto ToDto(this Secret entity)
+    public static SecretDto ToSummaryDto(this Secret entity)
+    {
+        return new SecretDto(entity.Type, entity.Name);
+    }
+
+    public static SecretDto ToFullDto(this Secret entity)
     {
         return entity.Type switch
         {

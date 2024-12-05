@@ -44,11 +44,12 @@ public partial class SecretsPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OnViewSecret(SecretDto secret)
+    private async Task OnViewSecret(SecretViewRequestModel request)
     {
-        //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control
-        //TODO: Retrieve credentials data from service
-        var viewModel = new SecretPageViewModel { Credential = new CredentialDto("TEST - X", "TEST - X", "PWD") };
+        //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
+        var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
+        var viewModel = new SecretPageViewModel { Credential = (CredentialDto)secret };
+        
         _navigationService.Navigate(typeof(SecretPage), viewModel);
 
         await Task.CompletedTask;
@@ -63,7 +64,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
     private async Task RetrieveSecrets(SecretsResourceType resourceType, ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
     {
-        var secrets = await _secretsService.GetAllAsync(resourceType, secureConnection.Value);
+        var secrets = await _secretsService.GetAllSummariesAsync(resourceType, secureConnection.Value);
         connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));
     }
 }

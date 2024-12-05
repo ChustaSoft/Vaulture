@@ -10,7 +10,7 @@ namespace ChustaSoft.Vaulture.Domain.Secrets;
 public class LocalFileSecretsStorageService : ISecretsStorageService
 {
 
-    public async Task<IEnumerable<Secret>> GetAllAsync(String storageName)
+    public async Task<IEnumerable<Secret>> GetAllAsync(string storageName)
     {
         if (!storageName.EndsWith(".xml"))
             storageName += ".xml";
@@ -20,6 +20,19 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
         var data = localStorageModel.Secrets.Select(x => new Secret(x.Type, x.Name, x.Value));
         
         return await Task.FromResult(data);
+    }
+
+    public async Task<Secret> GetAsync(string storageName, String name)
+    {
+        if (!storageName.EndsWith(".xml"))
+            storageName += ".xml";
+
+        var localStorageModel = LoadFile(storageName);
+
+        var data = localStorageModel.Secrets
+            .First(x => x.Name == x.Name);
+
+        return await Task.FromResult(new Secret(data.Type, data.Name, data.Value));
     }
 
     public Task SaveAsync(string storageName, Secret secret)

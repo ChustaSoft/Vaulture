@@ -5,7 +5,8 @@ namespace ChustaSoft.Vaulture.Application.Secrets;
 
 public interface ISecretsService
 {
-    Task<SecretDto[]> GetAllAsync(SecretsResourceType resourceType, string secretsConnectionName);
+    Task<SecretDto[]> GetAllSummariesAsync(SecretsResourceType resourceType, string storageName);
+    Task<SecretDto> GetAsync(SecretsResourceType resourceType, string storageName, string name);
     Task SaveAsync(SecretsResourceType resourceType, string secretsConnectionName, CredentialCreationCommand credentialCreation);
 }
 
@@ -22,12 +23,20 @@ public class SecretsService : ISecretsService
     }
 
 
-    public async Task<SecretDto[]> GetAllAsync(SecretsResourceType resourceType, string secretsConnectionName)
+    public async Task<SecretDto[]> GetAllSummariesAsync(SecretsResourceType resourceType, string storageName)
     {
         var service = _secretsStorageServiceResolver(resourceType);
-        var secrets = await service.GetAllAsync(secretsConnectionName);
+        var secrets = await service.GetAllAsync(storageName);
 
-        return secrets.Select(x => x.ToDto()).ToArray();
+        return secrets.Select(x => x.ToSummaryDto()).ToArray();
+    }
+
+    public async Task<SecretDto> GetAsync(SecretsResourceType resourceType, string storageName, string secretName)
+    {
+        var service = _secretsStorageServiceResolver(resourceType);
+        var secret = await service.GetAsync(storageName, secretName);
+
+        return secret.ToFullDto();
     }
 
     public async Task SaveAsync(SecretsResourceType resourceType, string secretsConnectionName, CredentialCreationCommand credentialCreation)

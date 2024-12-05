@@ -77,9 +77,9 @@ public partial class SettingsPageViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(SecureConnectionAliasToAdd) && !string.IsNullOrWhiteSpace(SecureConnectionValueToAdd))
         {
             if (SecureConnections.Any(x => x.Type == SecureConnectionTypeSelected.Type))
-                SecureConnections.First(x => x.Type == SecureConnectionTypeSelected.Type).Values.Add(new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd));
+                SecureConnections.First(x => x.Type == SecureConnectionTypeSelected.Type).Values.Add(new SecureConnectionValue(SecureConnectionTypeSelected.Type, SecureConnectionAliasToAdd, SecureConnectionValueToAdd));
             else
-                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionTypeSelected.Type, [new SecureConnectionValue(SecureConnectionAliasToAdd, SecureConnectionValueToAdd)]));
+                SecureConnections.Add(new SecureConnectionsDto(SecureConnectionTypeSelected.Type, [new SecureConnectionValue(SecureConnectionTypeSelected.Type, SecureConnectionAliasToAdd, SecureConnectionValueToAdd)]));
 
             SecureConnectionAliasToAdd = string.Empty;
             SecureConnectionValueToAdd = string.Empty;
