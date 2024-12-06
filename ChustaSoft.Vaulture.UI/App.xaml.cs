@@ -35,6 +35,8 @@ public partial class App
                 _ = services.AddSingleton<IPageService, PageService>();
                 _ = services.AddSingleton<IThemeService, ThemeService>();
                 _ = services.AddSingleton<ITaskBarService, TaskBarService>();
+                _ = services.AddSingleton<ISnackbarService, SnackbarService>();
+                _ = services.AddSingleton<IContentDialogService, ContentDialogService>();
                 _ = services.AddSingleton<INavigationService, NavigationService>();
 
                 _ = services.AddSingleton<IThemeManager, ThemeManager>();

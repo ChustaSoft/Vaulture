@@ -11,5 +11,8 @@ public partial class SecretsPage : Page
         DataContext = viewModel;
 
         InitializeComponent();
+
+        viewModel.DialogService.SetDialogHost(RootContentDialog);
+        viewModel.SnackbarService.SetSnackbarPresenter(SnackbarPresenter);
     }
 }

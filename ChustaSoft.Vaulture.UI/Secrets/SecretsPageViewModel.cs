@@ -1,9 +1,9 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using Wpf.Ui.Controls;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
@@ -15,12 +15,18 @@ public partial class SecretsPageViewModel : ObservableObject
     private readonly ISecretsService _secretsService;
     private readonly INavigationService _navigationService;
 
+    public ISnackbarService SnackbarService { get; set; }
+    public IContentDialogService DialogService { get; set; }
 
-    public SecretsPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService)
+
+    public SecretsPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService, ISnackbarService snackbarService, IContentDialogService dialogService)
     {
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;
         _navigationService = navigationService;
+        
+        SnackbarService = snackbarService;
+        DialogService = dialogService;
     }
 
 
@@ -66,6 +72,8 @@ public partial class SecretsPageViewModel : ObservableObject
         {
             await _secretsService.DeleteAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
             SecureConnections.First(x => x.ConnectionValue.Value == request.SecretConnection).RemoveSecret(request.SecretDto.Name);
+
+            SnackbarService.Show("Secret removed", $"Secret {request.SecretDto.Name} has been properly removed from {request.SecretConnection}", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Fluent24), TimeSpan.FromSeconds(3));
         }
 
         await Task.CompletedTask;
