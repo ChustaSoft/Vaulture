@@ -1,6 +1,7 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
+using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 
@@ -44,23 +45,45 @@ public partial class SecretsPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OnViewSecret(SecretViewRequestModel request)
+    private async Task OnViewSecret(SecretActionRequestModel request)
     {
         //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
         var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
         var viewModel = new SecretPageViewModel { Credential = (CredentialDto)secret };
-        
+
         _navigationService.Navigate(typeof(SecretPage), viewModel);
 
         await Task.CompletedTask;
     }
 
     [RelayCommand]
-    private async Task OnDeleteSecret(SecretDto secret)
+    private async Task OnDeleteSecret(SecretActionRequestModel request)
     {
+        var confirmationDialog = ShowConfirmationDialog();
+        var dialogResult = await confirmationDialog.ShowDialogAsync();
+
+        if (dialogResult == Wpf.Ui.Controls.MessageBoxResult.Primary)
+        {
+            await _secretsService.DeleteAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
+            SecureConnections.First(x => x.ConnectionValue.Value == request.SecretConnection).RemoveSecret(request.SecretDto.Name);
+        }
+
         await Task.CompletedTask;
     }
 
+
+    private static Wpf.Ui.Controls.MessageBox ShowConfirmationDialog()
+    {
+        return new Wpf.Ui.Controls.MessageBox
+        {
+            Title = "Are you sure?",
+            Content = "Delete Confirmation",
+            PrimaryButtonText = "Yes",
+            CloseButtonText = "No",
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            PrimaryButtonAppearance = Wpf.Ui.Controls.ControlAppearance.Danger
+        };
+    }
 
     private async Task RetrieveSecrets(SecretsResourceType resourceType, ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
     {

@@ -8,6 +8,7 @@ public interface ISecretsService
     Task<SecretDto[]> GetAllSummariesAsync(SecretsResourceType resourceType, string storageName);
     Task<SecretDto> GetAsync(SecretsResourceType resourceType, string storageName, string name);
     Task SaveAsync(SecretsResourceType resourceType, string secretsConnectionName, CredentialCreationCommand credentialCreation);
+    Task DeleteAsync(SecretsResourceType resourceType, string secretConnection, string name);
 }
 
 
@@ -47,4 +48,12 @@ public class SecretsService : ISecretsService
         //TODO: Save new secret, by retrieving first its formatted value
         await service.SaveAsync(secretsConnectionName, secret);
     }
+
+    public async Task DeleteAsync(SecretsResourceType resourceType, string secretsConnectionName, string secretName)
+    {
+        var service = _secretsStorageServiceResolver(resourceType);
+        
+        await service.DeleteAsync(secretsConnectionName, secretName);
+    }
+
 }

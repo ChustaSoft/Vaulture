@@ -22,7 +22,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
         return await Task.FromResult(data);
     }
 
-    public async Task<Secret> GetAsync(string storageName, String name)
+    public async Task<Secret> GetAsync(string storageName, string name)
     {
         if (!storageName.EndsWith(".xml"))
             storageName += ".xml";
@@ -48,6 +48,26 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
             Value = secret.Value.Value
         };
         localStorageModel.Secrets.Add(secretInfraModel);
+
+        XmlSerializer serializer = new XmlSerializer(typeof(LocalFileSecretStorageInfraModel));
+
+        using TextWriter writer = new StreamWriter(storageName);
+
+        serializer.Serialize(writer, localStorageModel);
+
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(string storageName, string name)
+    {
+        if (!storageName.EndsWith(".xml"))
+            storageName += ".xml";
+
+        var localStorageModel = LoadFile(storageName);
+      
+        var secretToRemove = localStorageModel.Secrets.First(x => x.Name == name);
+
+        localStorageModel.Secrets.Remove(secretToRemove);
 
         XmlSerializer serializer = new XmlSerializer(typeof(LocalFileSecretStorageInfraModel));
 
