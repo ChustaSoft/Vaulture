@@ -20,11 +20,6 @@ public partial class SecureConnectionSecretsViewModel : ObservableObject
         Secrets = new ObservableCollection<SecretDto>(secrets);
     }
 
-    //public void SetSecrets(SecretDto[] secrets)
-    //{
-    //    Secrets = new ObservableCollection<SecretDto>(secrets);
-    //}
-
     internal void RemoveSecret(string name)
     {
         var secret = Secrets.First(x => x.Name == name);

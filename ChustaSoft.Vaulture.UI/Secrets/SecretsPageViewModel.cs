@@ -1,8 +1,10 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
+using ChustaSoft.Vaulture.UI.Common;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using Wpf.Ui.Controls;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
@@ -24,7 +26,7 @@ public partial class SecretsPageViewModel : ObservableObject
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;
         _navigationService = navigationService;
-        
+
         SnackbarService = snackbarService;
         DialogService = dialogService;
     }
@@ -53,13 +55,13 @@ public partial class SecretsPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnViewSecret(SecretActionRequestModel request)
     {
-        //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
-        var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
-        var viewModel = new SecretPageViewModel { Credential = (CredentialDto)secret };
+        await OpenSecretDetailPage(request, PageMode.View);
+    }
 
-        _navigationService.Navigate(typeof(SecretPage), viewModel);
-
-        await Task.CompletedTask;
+    [RelayCommand]
+    private async Task OnEditSecret(SecretActionRequestModel request)
+    {
+        await OpenSecretDetailPage(request, PageMode.Edit);
     }
 
     [RelayCommand]
@@ -97,5 +99,14 @@ public partial class SecretsPageViewModel : ObservableObject
     {
         var secrets = await _secretsService.GetAllSummariesAsync(resourceType, secureConnection.Value);
         connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));
+    }
+
+    private async Task OpenSecretDetailPage(SecretActionRequestModel request, PageMode pageMode)
+    {
+        //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
+        var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
+        var viewModel = new SecretPageViewModel(pageMode, (CredentialDto)secret);
+
+        _navigationService.Navigate(typeof(SecretPage), viewModel);
     }
 }
