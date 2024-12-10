@@ -3,8 +3,11 @@
 
     <Thickness x:Key="DefaultMargin">10</Thickness>
     <Thickness x:Key="DefaultHorizontalSeparation">0 0 10 0</Thickness>
+    <Thickness x:Key="DefaultVerticalSeparation">0 0 0 10</Thickness>
     <Thickness x:Key="DefaultHorizontalMargins">10 0 10 0</Thickness>
-    <Thickness x:Key="DefaultVerticalMargin">0 10 0 5</Thickness>
+    <Thickness x:Key="DefaultVerticalLabelMargin">0 10 0 5</Thickness>
+    <Thickness x:Key="DefaultVerticalMargin">0 10 0 10</Thickness>
+    <Thickness x:Key="DefaultTotalMargin">10 10 10 10</Thickness>
 
 
     <Style x:Key="CV_MainContainerPanel_Style" TargetType="{x:Type StackPanel}" >
