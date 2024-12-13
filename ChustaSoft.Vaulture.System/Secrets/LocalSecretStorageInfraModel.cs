@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChustaSoft.Vaulture.LocalSystem.Secrets;
 
-public record LocalFileSecretStorageInfraModel
+public record LocalSecretStorageInfraModel
 {
     public List<SecretInfraModel> Secrets { get; set; } = new List<SecretInfraModel>();
 }
