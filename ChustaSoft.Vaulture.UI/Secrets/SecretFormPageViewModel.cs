@@ -2,7 +2,6 @@
 using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.UI.Settings;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
@@ -26,10 +25,10 @@ public partial class SecretFormPageViewModel : ObservableObject
     private bool enableSaveAction = false;
 
     [ObservableProperty]
-    private ObservableCollection<SecureConnectionValue> secureConnections = new ObservableCollection<SecureConnectionValue>();
+    private ObservableCollection<Application.Secrets.SecretsStorageDto> secureConnections = new ObservableCollection<Application.Secrets.SecretsStorageDto>();
 
     [ObservableProperty]
-    private SecureConnectionValue? secureConnectionValueSelected;
+    private Application.Secrets.SecretsStorageDto? secureConnectionValueSelected;
 
     [ObservableProperty]
     private ObservableCollection<SecretType> secretTypes = new ObservableCollection<SecretType>();
@@ -53,15 +52,15 @@ public partial class SecretFormPageViewModel : ObservableObject
     private string visiblePassword = string.Empty;
 
     [ObservableProperty]
-    private SecureConnectionTypesModel resourceTypes = SecureConnectionTypesProvider.Values;
+    private SecretsStorageTypeViewModel resourceTypes = SecretsStorageTypeViewModelProvider.Values;
 
     [ObservableProperty]
-    private SecureConnectionTypeModel resourceTypeSelected = SecureConnectionTypesProvider.Default;
+    private SecretsStorageTypeDto resourceTypeSelected = SecretsStorageTypeViewModelProvider.Default;
 
     private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
 
 
-    partial void OnSecureConnectionValueSelectedChanged(SecureConnectionValue? value)
+    partial void OnSecureConnectionValueSelectedChanged(Application.Secrets.SecretsStorageDto? value)
         => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value.ToString() };
 
     partial void OnSelectedSecretTypeChanged(SecretType? value)
@@ -113,7 +112,7 @@ public partial class SecretFormPageViewModel : ObservableObject
         //TODO (NTH) , we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
 
         var azureConnections = _appSettingsService.GetConnections(ResourceTypeSelected.Type);
-        SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
+        SecureConnections = new ObservableCollection<Application.Secrets.SecretsStorageDto>(azureConnections);
     }
 
     private void ResetForm()

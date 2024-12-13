@@ -4,11 +4,12 @@ using System.Windows.Data;
 
 namespace ChustaSoft.Vaulture.UI.Common;
 
+
 public class SecureConnectionCollectionSecretsConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
-        var castedObject = (SecureConnectionSecretsViewModel)value;
+        var castedObject = (SecretsStorageViewModel)value;
 
         return castedObject.Secrets;
     }

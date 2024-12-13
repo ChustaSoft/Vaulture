@@ -33,7 +33,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private ObservableCollection<SecureConnectionSecretsViewModel> secureConnections = new ObservableCollection<SecureConnectionSecretsViewModel>();
+    private ObservableCollection<SecretsStorageViewModel> secureConnections = new ObservableCollection<SecretsStorageViewModel>();
 
 
     [RelayCommand]
@@ -41,7 +41,7 @@ public partial class SecretsPageViewModel : ObservableObject
     {
         var secureConnections = await _appSettingsService.GetConnectionsAsync();
         var connectionsSecretsQueryTasks = new List<Task>();
-        var connectionsSecrets = new ConcurrentBag<SecureConnectionSecretsViewModel>();
+        var connectionsSecrets = new ConcurrentBag<SecretsStorageViewModel>();
 
         foreach (var secureConnectionTypes in secureConnections)
             foreach (var secureConnection in secureConnectionTypes.Value)
@@ -49,7 +49,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
-        SecureConnections = new ObservableCollection<SecureConnectionSecretsViewModel>(connectionsSecrets);
+        SecureConnections = new ObservableCollection<SecretsStorageViewModel>(connectionsSecrets);
     }
 
     [RelayCommand]
@@ -73,7 +73,7 @@ public partial class SecretsPageViewModel : ObservableObject
         if (dialogResult == Wpf.Ui.Controls.MessageBoxResult.Primary)
         {
             await _secretsService.DeleteAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
-            SecureConnections.First(x => x.ConnectionValue.Value == request.SecretConnection).RemoveSecret(request.SecretDto.Name);
+            SecureConnections.First(x => x.SecretsStorage.Value == request.SecretConnection).RemoveSecret(request.SecretDto.Name);
 
             SnackbarService.Show("Secret removed", $"Secret {request.SecretDto.Name} has been properly removed from {request.SecretConnection}", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Fluent24), TimeSpan.FromSeconds(3));
         }
@@ -95,10 +95,10 @@ public partial class SecretsPageViewModel : ObservableObject
         };
     }
 
-    private async Task RetrieveSecrets(SecretsResourceType resourceType, ConcurrentBag<SecureConnectionSecretsViewModel> connectionsSecrets, SecureConnectionValue secureConnection)
+    private async Task RetrieveSecrets(SecretsStorageType resourceType, ConcurrentBag<SecretsStorageViewModel> connectionsSecrets, Application.Secrets.SecretsStorageDto secureConnection)
     {
         var secrets = await _secretsService.GetAllSummariesAsync(resourceType, secureConnection.Value);
-        connectionsSecrets.Add(new SecureConnectionSecretsViewModel(secureConnection, secrets));
+        connectionsSecrets.Add(new SecretsStorageViewModel(secureConnection, secrets));
     }
 
     private async Task OpenSecretDetailPage(SecretActionRequestModel request, PageMode pageMode)
