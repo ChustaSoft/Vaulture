@@ -1,19 +1,21 @@
-﻿namespace ChustaSoft.Vaulture.Domain.Settings;
+﻿using ChustaSoft.Vaulture.Domain.Secrets;
+
+namespace ChustaSoft.Vaulture.Domain.Settings;
 
 
 public class AppSettings
 {
     public ThemeMode Theme { get; init; } = ThemeMode.System;
 
-    public List<SecureConnection> _secureConnections = [];
-    public IReadOnlyList<SecureConnection> SecureConnections => _secureConnections;
+    public List<SecretsStorage> _secretsStorages = [];
+    public IReadOnlyList<SecretsStorage> SecretsStorages => _secretsStorages;
 
 
     public AppSettings() { }
 
-    public AppSettings(ThemeMode theme, List<SecureConnection> secureConnections)
+    public AppSettings(ThemeMode theme, List<SecretsStorage> secretsStorages)
     {
         Theme = theme;
-        _secureConnections = secureConnections;
+        _secretsStorages = secretsStorages;
     }
 }

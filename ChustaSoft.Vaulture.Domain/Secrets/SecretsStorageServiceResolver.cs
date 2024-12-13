@@ -1,3 +1,3 @@
 ﻿namespace ChustaSoft.Vaulture.Domain.Secrets;
 
-public delegate ISecretsStorageService SecretsStorageServiceResolver(SecretsResourceType resourceType);
+public delegate ISecretsStorageService SecretsStorageServiceResolver(SecretsStorageType storageType);
