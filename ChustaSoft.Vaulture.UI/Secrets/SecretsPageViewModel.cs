@@ -4,7 +4,6 @@ using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.UI.Common;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
 using Wpf.Ui.Controls;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
@@ -105,7 +104,20 @@ public partial class SecretsPageViewModel : ObservableObject
     {
         //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
         var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretsStorageConnection, request.SecretDto.Name);
-        var viewModel = new SecretPageViewModel(pageMode, (CredentialDto)secret);
+        SecretPageViewModel? viewModel = null;
+
+        switch (pageMode)
+        {
+            case PageMode.View:
+                viewModel = new SecretPageViewModel((CredentialDto)secret);
+                break;
+            case PageMode.Edit:
+                viewModel = new SecretPageViewModel(_secretsService, request.ResourceType, request.SecretsStorageConnection, (CredentialDto)secret);
+                break;
+            default:
+                throw new ArgumentException("Unsupported Page type");
+        }
+        
 
         _navigationService.Navigate(typeof(SecretPage), viewModel);
     }

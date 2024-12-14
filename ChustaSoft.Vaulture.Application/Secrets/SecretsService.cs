@@ -7,7 +7,7 @@ public interface ISecretsService
 {
     Task<SecretDto[]> GetAllSummariesAsync(SecretsStorageType storageType, string storageConnection);
     Task<SecretDto> GetAsync(SecretsStorageType storageType, string storageConnection, string secretName);
-    Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialCreationCommand credentialCreation);
+    Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialSaveCommand credentialCreation);
     Task DeleteAsync(SecretsStorageType storageType, string storageConnection, string secretName);
 }
 
@@ -40,7 +40,7 @@ public class SecretsService : ISecretsService
         return secret.ToFullDto();
     }
 
-    public async Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialCreationCommand credentialCreation)
+    public async Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialSaveCommand credentialCreation)
     {
         var service = _secretsStorageServiceResolver(storageType);
         var secret = new Secret(SecretType.Credential, credentialCreation.Name, credentialCreation.Key, credentialCreation.Password);

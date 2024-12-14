@@ -1,6 +1,6 @@
 ﻿namespace ChustaSoft.Vaulture.Application.Secrets;
 
-public record CredentialCreationCommand
+public record CredentialSaveCommand
 {
     public string Name { get; set; } = string.Empty;
     public string Key { get; set; } = string.Empty;
