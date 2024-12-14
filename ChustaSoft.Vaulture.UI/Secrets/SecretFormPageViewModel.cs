@@ -57,7 +57,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     [ObservableProperty]
     private SecretsStorageTypeDto resourceTypeSelected = SecretsStorageTypeViewModelProvider.Default;
 
-    private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
+    private CredentialSaveCommand _credentialCreationCommand = new CredentialSaveCommand();
 
 
     partial void OnSecretsStorageSelectedChanged(Application.Secrets.SecretsStorageDto? value)
@@ -117,7 +117,7 @@ public partial class SecretFormPageViewModel : ObservableObject
 
     private void ResetForm()
     {
-        _credentialCreationCommand = new CredentialCreationCommand();
+        _credentialCreationCommand = new CredentialSaveCommand();
 
         SecretTypeSelected = null;
         SecretsStorageSelected = null;

@@ -27,6 +27,6 @@ public record SecretValue
     {
         var credentialValue = JsonSerializer.Deserialize<CredentialValue>(Value);
 
-        return credentialValue;
+        return credentialValue!;
     }
 }

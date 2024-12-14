@@ -1,4 +1,5 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
+using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.UI.Common;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
@@ -6,6 +7,10 @@ namespace ChustaSoft.Vaulture.UI.Secrets;
 //TODO: By the moment, is handling directly a Credential object, should be abstract to any kind of Secret
 public partial class SecretPageViewModel : ObservableObject
 {
+
+    private readonly ISecretsService? _secretsService;
+    private readonly SecretsStorageType? _secretsStorageType;
+    private readonly string? _secretsStorageConnection;
 
     [ObservableProperty]
     private bool enableSaveAction = true;
@@ -23,24 +28,38 @@ public partial class SecretPageViewModel : ObservableObject
     private string password;
 
 
-    public SecretPageViewModel(PageMode mode, CredentialDto credential)
+    public SecretPageViewModel(CredentialDto credential)
     {
-        Mode = mode;
+        Mode = PageMode.View;
         Name = credential.Name;
         Key = credential.Key;
         Password = credential.Password;
     }
 
-   
+    public SecretPageViewModel(ISecretsService secretsService, SecretsStorageType resourceType, string secretsStorageConnection, CredentialDto credential)
+        : this(credential)
+    {
+        _secretsService = secretsService;
+        _secretsStorageType = resourceType;
+        _secretsStorageConnection = secretsStorageConnection;
+
+        Mode = PageMode.Edit;
+    }
+
+
 
     partial void OnKeyChanged(string value)
     {
-        //EnableSaveAction = value.IsValid();
+        var credential = CreateCredentialSaveCommand();
+
+        EnableSaveAction = credential.IsValid();
     }
 
     partial void OnPasswordChanged(string value)
     {
-        //EnableSaveAction = value.IsValid();
+        var credential = CreateCredentialSaveCommand();
+
+        EnableSaveAction = credential.IsValid();
     }
 
 
@@ -53,8 +72,17 @@ public partial class SecretPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnSaveAsync()
     {
-        //TODO: Save element
-        await Task.CompletedTask;
+        var credential = CreateCredentialSaveCommand();
+
+        await _secretsService!.SaveAsync(_secretsStorageType!.Value, _secretsStorageConnection!, credential);
     }
+
+    private CredentialSaveCommand CreateCredentialSaveCommand()
+        => new CredentialSaveCommand
+            {
+                Name = Name,
+                Key = Key,
+                Password = Password
+            };
 
 }

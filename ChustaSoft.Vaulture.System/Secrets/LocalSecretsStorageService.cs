@@ -47,6 +47,13 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
             Type = secret.Type,
             Value = secret.Value.Value
         };
+
+        if (localStorageModel.Secrets.Any(x => x.Name == secret.Name))
+        {
+            var previous = localStorageModel.Secrets.First(x => x.Name == secret.Name);
+            localStorageModel.Secrets.Remove(previous);
+        }
+
         localStorageModel.Secrets.Add(secretInfraModel);
 
         XmlSerializer serializer = new XmlSerializer(typeof(LocalSecretStorageInfraModel));
@@ -87,12 +94,13 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
 
             using TextReader reader = new StreamReader(storageConnection);
 
-            var infraModel = (LocalSecretStorageInfraModel)serializer.Deserialize(reader);
+            var infraModel = (LocalSecretStorageInfraModel)serializer.Deserialize(reader)!;
 
-            return infraModel;
+            return infraModel!;
         }
         catch (Exception)
         {
+            //TODO: This implies not retrieving the file, but this is a development based implementation, there's no need to control it, but it's required to send an empty model back
             return new LocalSecretStorageInfraModel();
         }
     }
