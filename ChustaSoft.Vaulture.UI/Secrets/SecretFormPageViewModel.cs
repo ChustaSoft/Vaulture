@@ -2,7 +2,6 @@
 using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Application.Settings;
 using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.UI.Settings;
 using System.Collections.ObjectModel;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
@@ -26,16 +25,16 @@ public partial class SecretFormPageViewModel : ObservableObject
     private bool enableSaveAction = false;
 
     [ObservableProperty]
-    private ObservableCollection<SecureConnectionValue> secureConnections = new ObservableCollection<SecureConnectionValue>();
+    private ObservableCollection<SecretsStorageDto> secretsStorages = new ObservableCollection<SecretsStorageDto>();
 
     [ObservableProperty]
-    private SecureConnectionValue? secureConnectionValueSelected;
+    private SecretsStorageDto? secretsStorageSelected;
 
     [ObservableProperty]
     private ObservableCollection<SecretType> secretTypes = new ObservableCollection<SecretType>();
 
     [ObservableProperty]
-    private SecretType? selectedSecretType;
+    private SecretType? secretTypeSelected;
 
     [ObservableProperty]
     private SecretTypeVisibilityModel secretTypeVisibilityModel;
@@ -53,19 +52,19 @@ public partial class SecretFormPageViewModel : ObservableObject
     private string visiblePassword = string.Empty;
 
     [ObservableProperty]
-    private SecureConnectionTypesModel resourceTypes = SecureConnectionTypesProvider.Values;
+    private SecretsStorageTypeViewModel resourceTypes = SecretsStorageTypeViewModelProvider.Values;
 
     [ObservableProperty]
-    private SecureConnectionTypeModel resourceTypeSelected = SecureConnectionTypesProvider.Default;
+    private SecretsStorageTypeDto resourceTypeSelected = SecretsStorageTypeViewModelProvider.Default;
 
     private CredentialCreationCommand _credentialCreationCommand = new CredentialCreationCommand();
 
 
-    partial void OnSecureConnectionValueSelectedChanged(SecureConnectionValue? value)
-        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SelectedSecretType, SelectedConnection = value.ToString() };
+    partial void OnSecretsStorageSelectedChanged(Application.Secrets.SecretsStorageDto? value)
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SecretTypeSelected, SecretsStorageConnectionSelected = value.ToString() };
 
-    partial void OnSelectedSecretTypeChanged(SecretType? value)
-        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SelectedConnection = SecureConnectionValueSelected!.Value.Value };
+    partial void OnSecretTypeSelectedChanged(SecretType? value)
+        => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = value, SecretsStorageConnectionSelected = SecretsStorageSelected!.Value.Value };
 
     partial void OnNameChanged(string value)
     {
@@ -103,7 +102,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnSaveAsync()
     {
-        await _secretsService.SaveAsync(ResourceTypeSelected.Type, SecureConnectionValueSelected!.Value.Value, _credentialCreationCommand);
+        await _secretsService.SaveAsync(ResourceTypeSelected.Type, SecretsStorageSelected!.Value.Value, _credentialCreationCommand);
 
         ResetForm();
     }
@@ -113,18 +112,19 @@ public partial class SecretFormPageViewModel : ObservableObject
         //TODO (NTH) , we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
 
         var azureConnections = _appSettingsService.GetConnections(ResourceTypeSelected.Type);
-        SecureConnections = new ObservableCollection<SecureConnectionValue>(azureConnections);
+        SecretsStorages = new ObservableCollection<Application.Secrets.SecretsStorageDto>(azureConnections);
     }
 
     private void ResetForm()
     {
-        SelectedSecretType = null;
-        SecureConnectionValueSelected = null;
+        _credentialCreationCommand = new CredentialCreationCommand();
+
+        SecretTypeSelected = null;
+        SecretsStorageSelected = null;
         Name = string.Empty;
         Key = string.Empty;
         Password = string.Empty;
         VisiblePassword = string.Empty;
-        _credentialCreationCommand = new CredentialCreationCommand();
         EnableSaveAction = false;
     }
 

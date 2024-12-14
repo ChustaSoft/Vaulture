@@ -1,6 +1,8 @@
-﻿using ChustaSoft.Vaulture.Domain.Secrets;
+﻿using ChustaSoft.Vaulture.Application.Secrets;
+using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
 using System.Collections.ObjectModel;
+using SecretsStorageDto = ChustaSoft.Vaulture.Application.Secrets.SecretsStorageDto;
 
 namespace ChustaSoft.Vaulture.Application.Settings;
 
@@ -9,8 +11,8 @@ public interface IAppSettingsService
 {
     Task<AppSettingsDto> LoadAsync();
     Task SaveAsync(SettingsSaveCommand command);
-    Task<IDictionary<SecretsResourceType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync();
-    IEnumerable<SecureConnectionValue> GetConnections(SecretsResourceType connectionType);
+    Task<IDictionary<SecretsStorageType, IEnumerable<SecretsStorageDto>>> GetConnectionsAsync();
+    IEnumerable<SecretsStorageDto> GetConnections(SecretsStorageType connectionType);
 }
 
 
@@ -34,9 +36,9 @@ public class AppSettingsService : IAppSettingsService
         {
             PerformLoadingSettings();
 
-            var secureConnections = GetElements(_appSettings).ToList();
+            var secretsStorages = GetElements(_appSettings);
 
-            return new AppSettingsDto(_appSettings.Theme, secureConnections);
+            return new AppSettingsDto(_appSettings.Theme, secretsStorages);
         });
     }
 
@@ -44,40 +46,46 @@ public class AppSettingsService : IAppSettingsService
     {
         await Task.Run(() =>
         {
-            var secureConnections = new List<SecureConnection>();
-            foreach (var secureType in command.SecureSettings)
-                secureConnections.AddRange(secureType.Values.Select(x => new SecureConnection(secureType.Type, x.Alias, x.Value)));
+            var secretsStorages = new List<Domain.Secrets.SecretsStorage>();
+            
+            secretsStorages.AddRange(command.SecretsStorages.Select(x => new Domain.Secrets.SecretsStorage(x.Type, x.Alias, x.Value)));
 
-            _appSettings = new AppSettings(command.Theme, secureConnections);
+            _appSettings = new AppSettings(command.Theme, secretsStorages);
 
             _appSettingsStorage.Save(_appSettings);
         });
     }
 
-    public async Task<IDictionary<SecretsResourceType, IEnumerable<SecureConnectionValue>>> GetConnectionsAsync()
+    public async Task<IDictionary<SecretsStorageType, IEnumerable<SecretsStorageDto>>> GetConnectionsAsync()
     {
-        return await Task.Run(() =>
+        return await Task.Run((Func<Dictionary<SecretsStorageType, IEnumerable<SecretsStorageDto>>>)(() =>
         {
             PerformLoadingSettings();
 
-            return _appSettings.SecureConnections
+            return (Dictionary<SecretsStorageType, IEnumerable<SecretsStorageDto>>)_appSettings.SecretsStorages
                 .GroupBy(x => x.Type)
-                .ToDictionary(x => x.Key, y => y.Select(z => new SecureConnectionValue(y.Key, z.Alias, z.Value)));
-        });
+                .ToDictionary(
+                        x => x.Key, (Func<IGrouping<SecretsStorageType, SecretsStorage>, IEnumerable<SecretsStorageDto>>)(
+                        y => y.Select((Func<SecretsStorage, SecretsStorageDto>)(
+                        z => (SecretsStorageDto)new Secrets.SecretsStorageDto(y.Key, z.Alias, z.Value)))));
+        }));
     }
 
-    public IEnumerable<SecureConnectionValue> GetConnections(SecretsResourceType resourceType)
+    public IEnumerable<SecretsStorageDto> GetConnections(SecretsStorageType resourceType)
     {
-        return _appSettings.SecureConnections
+        return _appSettings.SecretsStorages
             .Where(x => x.Type == resourceType)
-            .Select(x => new SecureConnectionValue(resourceType, x.Alias, x.Value));
+            .Select(x => new SecretsStorageDto(resourceType, x.Alias, x.Value));
     }
 
 
-    private IEnumerable<SecureConnectionsDto> GetElements(AppSettings appSettings)
+    private IDictionary<SecretsStorageType, SecretsStorageDto[]> GetElements(AppSettings appSettings)
     {
-        foreach (var group in appSettings.SecureConnections.GroupBy(x => x.Type))
-            yield return new SecureConnectionsDto(group.Key, new ObservableCollection<SecureConnectionValue>(group.Select(x => new SecureConnectionValue(group.Key, x.Alias, x.Value))));
+        var dictionary = new Dictionary<SecretsStorageType, SecretsStorageDto[]>();
+        foreach (var group in appSettings.SecretsStorages.GroupBy(x => x.Type))
+            dictionary.Add(group.Key, group.Select(x => new SecretsStorageDto(group.Key, x.Alias, x.Value)).ToArray());
+
+        return dictionary;
     }
 
     private void PerformLoadingSettings()

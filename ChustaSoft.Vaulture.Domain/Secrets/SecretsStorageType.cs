@@ -2,7 +2,7 @@
 
 namespace ChustaSoft.Vaulture.Domain.Secrets;
 
-public enum SecretsResourceType
+public enum SecretsStorageType
 {
     [Description("Local File")]
     LocalFile = 0,

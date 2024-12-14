@@ -6,8 +6,9 @@
             xmlns:sys="clr-namespace:System;assembly=mscorlib"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-            xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
             xmlns:common="clr-namespace:ChustaSoft.Vaulture.UI.Common"
+            xmlns:secrets="clr-namespace:ChustaSoft.Vaulture.UI.Secrets"
+            xmlns:module="clr-namespace:ChustaSoft.Vaulture.Application.Settings;assembly=ChustaSoft.Vaulture.Application"
             Title="Settings"
             d:DesignHeight="450"
             d:DesignWidth="800"
@@ -15,7 +16,7 @@
 
     <Page.Resources>
         <common:ThemeBooleanConverter x:Key="ThemeBooleanConverter" />
-        <common:SecureConnectionTypeConverter x:Key="SecureConnectionTypeConverter" />
+        <secrets:SecretsStorageTypeConverter x:Key="SecretsStorageTypeConverter" />
     </Page.Resources>
 
     <b:Interaction.Triggers>
@@ -43,20 +44,20 @@
         </StackPanel>
 
         <StackPanel Style="{StaticResource CV_SectionContainerPanel_Style}">
-            <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Secure Connections" />
-            <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Add Secure Connection" />
+            <TextBlock Style="{StaticResource CV_SectionTitle_Style}" Text="Secrets Storages" />
+            <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Add Secrets Storage" />
             <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultVerticalMargin}" >
-                <ComboBox ItemsSource="{Binding SecureConnectionTypes}" SelectedItem="{Binding SecureConnectionTypeSelected}" Width="150" Margin="{StaticResource DefaultHorizontalSeparation}" />
-                <ui:TextBox PlaceholderText="Add a name/alias for this connection" Text="{Binding SecureConnectionAliasToAdd }" Width="250" Margin="{StaticResource DefaultHorizontalSeparation}" />
-                <ui:TextBox PlaceholderText="Add new Secure connection..." Text="{Binding SecureConnectionValueToAdd }" Width="350" Margin="{StaticResource DefaultHorizontalSeparation}" />
-                <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Command="{Binding AddSecureConnectionCommand}" IsEnabled="{Binding EnableAddAction}" />
+                <ComboBox ItemsSource="{Binding SecretsStorageTypes}" SelectedItem="{Binding SecretsStorageTypeSelected}" Width="150" Margin="{StaticResource DefaultHorizontalSeparation}" />
+                <ui:TextBox PlaceholderText="Add a name/alias for this storage" Text="{Binding SecretsStorageAliasToAdd }" Width="250" Margin="{StaticResource DefaultHorizontalSeparation}" />
+                <ui:TextBox PlaceholderText="Add new Secrets storage..." Text="{Binding SecretsStorageValueToAdd }" Width="350" Margin="{StaticResource DefaultHorizontalSeparation}" />
+                <ui:Button Appearance="Primary" Content="Add" Icon="{ui:SymbolIcon Add32}" Command="{Binding AddSecretsStorageCommand}" IsEnabled="{Binding EnableAddAction}" />
             </StackPanel>
 
-            <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Configured connections" />
-            <TreeView ItemsSource="{Binding SecureConnections}">
+            <TextBlock Style="{StaticResource CV_SectionSubtitle_Style}" Text="Configured storages" />
+            <TreeView ItemsSource="{Binding SecretTypeStorages}">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type module:SecureConnectionsDto}" ItemsSource="{Binding Values}">
-                        <TextBlock Text="{Binding Type, Converter={StaticResource SecureConnectionTypeConverter}}" />
+                    <HierarchicalDataTemplate DataType="{x:Type secrets:SecretTypeStoragesViewModel}" ItemsSource="{Binding SecretsStorages}">
+                        <TextBlock Text="{Binding Type, Converter={StaticResource SecretsStorageTypeConverter}}" />
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type sys:String}">
                         <TextBlock Text="{Binding .}" />

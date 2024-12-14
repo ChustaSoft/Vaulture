@@ -3,13 +3,14 @@ using ChustaSoft.Vaulture.Domain.Secrets;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Common;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
-public class SecureConnectionTypeConverter : IValueConverter
+
+public class SecretsStorageTypeConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
-        var castedObject = (SecretsResourceType)value;
+        var castedObject = (SecretsStorageType)value;
 
         return castedObject.GetDescription();
     }

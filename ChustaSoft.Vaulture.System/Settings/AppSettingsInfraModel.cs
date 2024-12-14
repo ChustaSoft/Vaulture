@@ -16,13 +16,13 @@ public class AppSettingsInfraModel
         : this()
     {
         Theme = appSettings.Theme;
-        SecureConnections = appSettings.SecureConnections.Select(x => new SecureConnectionInfraModel(x)).ToList();
+        SecureConnections = appSettings.SecretsStorages.Select(x => new SecureConnectionInfraModel(x)).ToList();
     }
 
 
     public AppSettings ToEntity()
     {
-        return new AppSettings(Theme, SecureConnections.Select(x => new SecureConnection(x.Type, x.Alias, x.Value)).ToList());
+        return new AppSettings(Theme, SecureConnections.Select(x => new SecretsStorage(x.Type, x.Alias, x.Value)).ToList());
     }
 }
 
@@ -30,14 +30,14 @@ public class AppSettingsInfraModel
 
 public class SecureConnectionInfraModel
 {
-    public SecretsResourceType Type { get; init; }
+    public SecretsStorageType Type { get; init; }
     public string Alias { get; init; } = null!;
     public string Value { get; init; } = null!;
 
 
     public SecureConnectionInfraModel() { }
 
-    public SecureConnectionInfraModel(SecureConnection secureConnection)
+    public SecureConnectionInfraModel(SecretsStorage secureConnection)
         : this()
     {
         Type = secureConnection.Type;

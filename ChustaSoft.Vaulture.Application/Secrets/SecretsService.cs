@@ -5,10 +5,10 @@ namespace ChustaSoft.Vaulture.Application.Secrets;
 
 public interface ISecretsService
 {
-    Task<SecretDto[]> GetAllSummariesAsync(SecretsResourceType resourceType, string storageName);
-    Task<SecretDto> GetAsync(SecretsResourceType resourceType, string storageName, string name);
-    Task SaveAsync(SecretsResourceType resourceType, string secretsConnectionName, CredentialCreationCommand credentialCreation);
-    Task DeleteAsync(SecretsResourceType resourceType, string secretConnection, string name);
+    Task<SecretDto[]> GetAllSummariesAsync(SecretsStorageType storageType, string storageConnection);
+    Task<SecretDto> GetAsync(SecretsStorageType storageType, string storageConnection, string secretName);
+    Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialCreationCommand credentialCreation);
+    Task DeleteAsync(SecretsStorageType storageType, string storageConnection, string secretName);
 }
 
 
@@ -24,36 +24,36 @@ public class SecretsService : ISecretsService
     }
 
 
-    public async Task<SecretDto[]> GetAllSummariesAsync(SecretsResourceType resourceType, string storageName)
+    public async Task<SecretDto[]> GetAllSummariesAsync(SecretsStorageType storageType, string storageConnection)
     {
-        var service = _secretsStorageServiceResolver(resourceType);
-        var secrets = await service.GetAllAsync(storageName);
+        var service = _secretsStorageServiceResolver(storageType);
+        var secrets = await service.GetAllAsync(storageConnection);
 
         return secrets.Select(x => x.ToSummaryDto()).ToArray();
     }
 
-    public async Task<SecretDto> GetAsync(SecretsResourceType resourceType, string storageName, string secretName)
+    public async Task<SecretDto> GetAsync(SecretsStorageType storageType, string storageConnection, string secretName)
     {
-        var service = _secretsStorageServiceResolver(resourceType);
-        var secret = await service.GetAsync(storageName, secretName);
+        var service = _secretsStorageServiceResolver(storageType);
+        var secret = await service.GetAsync(storageConnection, secretName);
 
         return secret.ToFullDto();
     }
 
-    public async Task SaveAsync(SecretsResourceType resourceType, string secretsConnectionName, CredentialCreationCommand credentialCreation)
+    public async Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialCreationCommand credentialCreation)
     {
-        var service = _secretsStorageServiceResolver(resourceType);
+        var service = _secretsStorageServiceResolver(storageType);
         var secret = new Secret(SecretType.Credential, credentialCreation.Name, credentialCreation.Key, credentialCreation.Password);
 
         //TODO: Save new secret, by retrieving first its formatted value
-        await service.SaveAsync(secretsConnectionName, secret);
+        await service.SaveAsync(storageConnection, secret);
     }
 
-    public async Task DeleteAsync(SecretsResourceType resourceType, string secretsConnectionName, string secretName)
+    public async Task DeleteAsync(SecretsStorageType storageType, string storageConnection, string secretName)
     {
-        var service = _secretsStorageServiceResolver(resourceType);
+        var service = _secretsStorageServiceResolver(storageType);
         
-        await service.DeleteAsync(secretsConnectionName, secretName);
+        await service.DeleteAsync(storageConnection, secretName);
     }
 
 }

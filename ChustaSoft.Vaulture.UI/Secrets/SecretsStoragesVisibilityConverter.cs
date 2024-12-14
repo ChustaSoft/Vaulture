@@ -1,17 +1,17 @@
-﻿using ChustaSoft.Vaulture.UI.Secrets;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Common;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
-public class SecureConnectionCollectionVisibilityConverter : IValueConverter
+
+public class SecretsStoragesVisibilityConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {
         if (parameter is not string option)
             throw new ArgumentException($"Parameter must be 'Empty' or 'Content'");
 
-        var castedObject = (SecureConnectionSecretsViewModel)value;
+        var castedObject = (SecretsStorageViewModel)value;
         var hasData = castedObject.Secrets.Any();
 
         return (hasData, option) switch

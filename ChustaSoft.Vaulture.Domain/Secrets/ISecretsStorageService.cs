@@ -2,8 +2,8 @@
 
 public interface ISecretsStorageService
 {
-    Task<IEnumerable<Secret>> GetAllAsync(string storageName);
-    Task<Secret> GetAsync(string storageName, string name);
-    Task SaveAsync(string storageName, Secret secret);
-    Task DeleteAsync(String secretConnection, String name);
+    Task<IEnumerable<Secret>> GetAllAsync(string storageConnection);
+    Task<Secret> GetAsync(string storageConnection, string name);
+    Task SaveAsync(string storageConnection, Secret secret);
+    Task DeleteAsync(string storageConnection, string name);
 }
