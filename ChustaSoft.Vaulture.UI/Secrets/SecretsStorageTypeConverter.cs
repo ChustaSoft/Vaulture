@@ -3,7 +3,7 @@ using ChustaSoft.Vaulture.Domain.Secrets;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Common;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
 public class SecretsStorageTypeConverter : IValueConverter

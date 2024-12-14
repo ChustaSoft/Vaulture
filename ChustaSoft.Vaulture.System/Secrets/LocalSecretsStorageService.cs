@@ -30,7 +30,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
         var localStorageModel = LoadFile(storageConnection);
 
         var data = localStorageModel.Secrets
-            .First(x => x.Name == x.Name);
+            .First(x => x.Name == name);
 
         return await Task.FromResult(new Secret(data.Type, data.Name, data.Value));
     }

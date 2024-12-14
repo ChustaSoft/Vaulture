@@ -6,5 +6,5 @@ namespace ChustaSoft.Vaulture.UI.Secrets;
 public struct SecretTypeVisibilityModel
 {
     public SecretType? SecretType { get; set; }
-    public string? SelectedConnection { get; set; }
+    public string? SecretsStorageConnectionSelected { get; set; }
 }

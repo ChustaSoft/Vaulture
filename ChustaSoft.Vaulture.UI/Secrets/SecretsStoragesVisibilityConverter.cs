@@ -1,11 +1,10 @@
-﻿using ChustaSoft.Vaulture.UI.Secrets;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Common;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public class SecureConnectionCollectionVisibilityConverter : IValueConverter
+public class SecretsStoragesVisibilityConverter : IValueConverter
 {
     public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
     {

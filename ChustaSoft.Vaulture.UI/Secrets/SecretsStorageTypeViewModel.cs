@@ -10,8 +10,8 @@ public class SecretsStorageTypeViewModel : ObservableCollection<SecretsStorageTy
 {
     internal SecretsStorageTypeViewModel()
     {
-        foreach (var connectionType in EnumsHelper.GetEnumList<SecretsStorageType>())
-            Add(new SecretsStorageTypeDto(connectionType, connectionType.GetDescription()));
+        foreach (var secretsStorageTypes in EnumsHelper.GetEnumList<SecretsStorageType>())
+            Add(new SecretsStorageTypeDto(secretsStorageTypes, secretsStorageTypes.GetDescription()));
     }
 
 }

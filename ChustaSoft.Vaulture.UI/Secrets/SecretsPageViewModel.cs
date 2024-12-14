@@ -33,7 +33,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private ObservableCollection<SecretsStorageViewModel> secureConnections = new ObservableCollection<SecretsStorageViewModel>();
+    private ObservableCollection<SecretsStorageViewModel> secretsStorages = new ObservableCollection<SecretsStorageViewModel>();
 
 
     [RelayCommand]
@@ -49,7 +49,7 @@ public partial class SecretsPageViewModel : ObservableObject
 
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
-        SecureConnections = new ObservableCollection<SecretsStorageViewModel>(connectionsSecrets);
+        SecretsStorages = new ObservableCollection<SecretsStorageViewModel>(connectionsSecrets);
     }
 
     [RelayCommand]
@@ -72,10 +72,10 @@ public partial class SecretsPageViewModel : ObservableObject
 
         if (dialogResult == Wpf.Ui.Controls.MessageBoxResult.Primary)
         {
-            await _secretsService.DeleteAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
-            SecureConnections.First(x => x.SecretsStorage.Value == request.SecretConnection).RemoveSecret(request.SecretDto.Name);
+            await _secretsService.DeleteAsync(request.ResourceType, request.SecretsStorageConnection, request.SecretDto.Name);
+            SecretsStorages.First(x => x.SecretsStorage.Value == request.SecretsStorageConnection).RemoveSecret(request.SecretDto.Name);
 
-            SnackbarService.Show("Secret removed", $"Secret {request.SecretDto.Name} has been properly removed from {request.SecretConnection}", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Fluent24), TimeSpan.FromSeconds(3));
+            SnackbarService.Show("Secret removed", $"Secret {request.SecretDto.Name} has been properly removed from {request.SecretsStorageConnection}", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Fluent24), TimeSpan.FromSeconds(3));
         }
 
         await Task.CompletedTask;
@@ -104,7 +104,7 @@ public partial class SecretsPageViewModel : ObservableObject
     private async Task OpenSecretDetailPage(SecretActionRequestModel request, PageMode pageMode)
     {
         //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
-        var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretConnection, request.SecretDto.Name);
+        var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretsStorageConnection, request.SecretDto.Name);
         var viewModel = new SecretPageViewModel(pageMode, (CredentialDto)secret);
 
         _navigationService.Navigate(typeof(SecretPage), viewModel);

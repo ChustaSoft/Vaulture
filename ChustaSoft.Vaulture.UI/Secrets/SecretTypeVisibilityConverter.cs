@@ -1,9 +1,8 @@
 ﻿using ChustaSoft.Vaulture.Domain.Secrets;
-using ChustaSoft.Vaulture.UI.Secrets;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ChustaSoft.Vaulture.UI.Common;
+namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
 public class SecretTypeVisibilityConverter : IValueConverter
@@ -12,7 +11,7 @@ public class SecretTypeVisibilityConverter : IValueConverter
     {
         var castedValue = (SecretTypeVisibilityModel)value;
 
-        return (castedValue.SecretType, castedValue.SelectedConnection, parameter) switch
+        return (castedValue.SecretType, castedValue.SecretsStorageConnectionSelected, parameter) switch
         {
             (null, _, "Empty") => Visibility.Visible,
             (_, null, "Empty") => Visibility.Visible,

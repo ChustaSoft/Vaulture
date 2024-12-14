@@ -3,4 +3,4 @@ using ChustaSoft.Vaulture.Domain.Secrets;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
-public record SecretActionRequestModel(SecretsStorageType ResourceType, string SecretConnection, SecretDto SecretDto);
+public record SecretActionRequestModel(SecretsStorageType ResourceType, string SecretsStorageConnection, SecretDto SecretDto);
