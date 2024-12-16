@@ -1,7 +1,6 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.UI.Common;
-using System.Net;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
 

@@ -1,7 +1,5 @@
-﻿using ChustaSoft.Vaulture.Application.Secrets;
-using ChustaSoft.Vaulture.Domain.Secrets;
+﻿using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.Domain.Settings;
-using System.Collections.ObjectModel;
 using SecretsStorageDto = ChustaSoft.Vaulture.Application.Secrets.SecretsStorageDto;
 
 namespace ChustaSoft.Vaulture.Application.Settings;
@@ -47,7 +45,7 @@ public class AppSettingsService : IAppSettingsService
         await Task.Run(() =>
         {
             var secretsStorages = new List<Domain.Secrets.SecretsStorage>();
-            
+
             secretsStorages.AddRange(command.SecretsStorages.Select(x => new Domain.Secrets.SecretsStorage(x.Type, x.Alias, x.Value)));
 
             _appSettings = new AppSettings(command.Theme, secretsStorages);

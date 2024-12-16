@@ -17,7 +17,7 @@ public partial class SecretTypeStoragesViewModel : ObservableObject
 
     public SecretTypeStoragesViewModel()
     {
-        
+
     }
 
     public SecretTypeStoragesViewModel(SecretsStorageType type, SecretsStorageDto[] secretsStorages)
