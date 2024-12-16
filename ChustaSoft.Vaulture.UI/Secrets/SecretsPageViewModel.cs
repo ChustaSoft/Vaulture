@@ -109,10 +109,10 @@ public partial class SecretsPageViewModel : ObservableObject
         switch (pageMode)
         {
             case PageMode.View:
-                viewModel = new SecretPageViewModel((CredentialDto)secret);
+                viewModel = new SecretPageViewModel(secret);
                 break;
             case PageMode.Edit:
-                viewModel = new SecretPageViewModel(_secretsService, request.ResourceType, request.SecretsStorageConnection, (CredentialDto)secret);
+                viewModel = new SecretPageViewModel(_secretsService, request.ResourceType, request.SecretsStorageConnection, secret);
                 break;
             default:
                 throw new ArgumentException("Unsupported Page type");
