@@ -18,7 +18,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
         var localStorageModel = LoadFile(storageConnection);
 
         var data = localStorageModel.Secrets.Select(x => new Secret(x.Type, x.Name, new SecretValue(x.Value)));
-        
+
         return await Task.FromResult(data);
     }
 
@@ -37,7 +37,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
 
     public Task SaveAsync(string storageConnection, Secret secret)
     {
-        if(!storageConnection.EndsWith(".xml"))
+        if (!storageConnection.EndsWith(".xml"))
             storageConnection += ".xml";
 
         var localStorageModel = LoadFile(storageConnection);
@@ -71,7 +71,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
             storageConnection += ".xml";
 
         var localStorageModel = LoadFile(storageConnection);
-      
+
         var secretToRemove = localStorageModel.Secrets.First(x => x.Name == name);
 
         localStorageModel.Secrets.Remove(secretToRemove);

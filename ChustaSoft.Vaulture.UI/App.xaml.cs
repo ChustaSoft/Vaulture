@@ -64,7 +64,7 @@ public partial class App
                     return resourceType switch
                     {
                         SecretsStorageType.LocalFile => serviceProvider.GetService<LocalFileSecretsStorageService>()!,
-                        
+
                         _ => throw new ArgumentException("Unable to resolve the requested storage service: Invalid resource type")
                     };
                 });

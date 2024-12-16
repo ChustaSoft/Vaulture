@@ -117,7 +117,7 @@ public partial class SecretsPageViewModel : ObservableObject
             default:
                 throw new ArgumentException("Unsupported Page type");
         }
-        
+
 
         _navigationService.Navigate(typeof(SecretPage), viewModel);
     }

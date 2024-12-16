@@ -61,7 +61,7 @@ public partial class SecretFormPageViewModel : ObservableObject
     private SecretsStorageTypeDto resourceTypeSelected = SecretsStorageTypeViewModelProvider.Default;
 
     private ISecretSaveCommand? _creationCommand = null;
-    
+
 
     partial void OnSecretsStorageSelectedChanged(Application.Secrets.SecretsStorageDto? value)
         => SecretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretType = SecretTypeSelected, SecretsStorageConnectionSelected = value.ToString() };
@@ -143,11 +143,11 @@ public partial class SecretFormPageViewModel : ObservableObject
     private async Task OnSaveAsync()
     {
         await _secretsService.SaveAsync(ResourceTypeSelected.Type, SecretsStorageSelected!.Value.Value, _creationCommand);
-        
+
         ResetPage();
     }
 
-    
+
     private void FilterSecureConnectionsByCurrentSelection()
     {
         //TODO (NTH) , we can also allow to configure in Settings page the default provider, enhancing UX pre loading data
