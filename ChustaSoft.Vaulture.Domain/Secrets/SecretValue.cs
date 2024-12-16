@@ -9,31 +9,23 @@ public record SecretValue
 
     private SecretValue() { }
 
-    internal SecretValue(string value)
+    public SecretValue(string value)
     {
         Value = value;
     }
 
-    public static SecretValue FromCredential(string key, string password)
+    public SecretValue(CredentialSaveCommand credentialSaveCommand)
     {
-        var secretObj = new CredentialValue(key, password);
-        var secret = new SecretValue
-        {
-            Value = JsonSerializer.Serialize(secretObj)
-        };
-        
-        return secret;
+        var secretObj = new CredentialValue(credentialSaveCommand.Key, credentialSaveCommand.Password);
+
+        Value = JsonSerializer.Serialize(secretObj);
     }
 
-    public static SecretValue FromConnectionString(string value)
+    public SecretValue(ConnectionStringSaveCommand connectionStringSaveCommand)
     {
-        var secretObj = new ConnectionStringValue(value);
-        var secret = new SecretValue
-        {
-            Value = JsonSerializer.Serialize(secretObj)
-        };
+        var secretObj = new ConnectionStringValue(connectionStringSaveCommand.Value);
 
-        return secret;
+        Value = JsonSerializer.Serialize(secretObj);
     }
 
     public CredentialValue RetrieveCredentialValue()

@@ -8,28 +8,25 @@ public class Secret
     public SecretValue Value { get; private set; } = null!;
 
 
-    internal Secret(SecretType type, string name)
+    public Secret(SecretType type, string name, SecretValue value)
     {
         Type = type;
         Name = name;
+        Value = value;
     }
 
-    public Secret(SecretType type, string name, string value)
-        : this(type, name)
+    public Secret(ISecretSaveCommand saveCommand)
     {
-        Value = new SecretValue(value);
-    }
+        Type = saveCommand.Type;
+        Name = saveCommand.Name;
 
-    public Secret(string name, string key, string password)
-       : this(SecretType.Credential, name)
-    {
-        Value = SecretValue.FromCredential(key, password);
-    }
+        Value = saveCommand.Type switch
+        {
+            SecretType.Credential => new SecretValue((CredentialSaveCommand)saveCommand),
+            SecretType.ConnectionString => new SecretValue((ConnectionStringSaveCommand)saveCommand),
 
-    public Secret(string name, string connectionString)
-       : this(SecretType.ConnectionString, name)
-    {
-        Value = SecretValue.FromConnectionString(connectionString);
+            _ => throw new ArgumentException($"Unsupported Secret type: {saveCommand.Type}")
+        };
     }
 
 }

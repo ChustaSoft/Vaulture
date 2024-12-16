@@ -7,8 +7,7 @@ public interface ISecretsService
 {
     Task<SecretDto[]> GetAllSummariesAsync(SecretsStorageType storageType, string storageConnection);
     Task<SecretDto> GetAsync(SecretsStorageType storageType, string storageConnection, string secretName);
-    Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialSaveCommand credentialCreation);
-    Task SaveAsync(SecretsStorageType storageType, string storageConnection, ConnectionStringSaveCommand connectionStringCreation);
+    Task SaveAsync(SecretsStorageType storageType, string storageConnection, ISecretSaveCommand saveCommand);
     Task DeleteAsync(SecretsStorageType storageType, string storageConnection, string secretName);
 }
 
@@ -41,32 +40,18 @@ public class SecretsService : ISecretsService
         return secret.ToFullDto();
     }
 
-    public async Task SaveAsync(SecretsStorageType storageType, string storageConnection, CredentialSaveCommand credentialCreation)
+    public async Task SaveAsync(SecretsStorageType storageType, string storageConnection, ISecretSaveCommand saveCommand)
     {
-        var secret = new Secret(credentialCreation.Name, credentialCreation.Key, credentialCreation.Password);
-        
-        await SaveAsync(storageType, storageConnection, secret);
-    }
+        var service = _secretsStorageServiceResolver(storageType);
+        var secret = new Secret(saveCommand);
 
-    public async Task SaveAsync(SecretsStorageType storageType, String storageConnection, ConnectionStringSaveCommand connectionStringCreation)
-    {
-        var secret = new Secret(connectionStringCreation.Name, connectionStringCreation.Value);
-        
-        await SaveAsync(storageType, storageConnection, secret);
+        await service.SaveAsync(storageConnection, secret);
     }
 
     public async Task DeleteAsync(SecretsStorageType storageType, string storageConnection, string secretName)
     {
         var service = _secretsStorageServiceResolver(storageType);
-        
+
         await service.DeleteAsync(storageConnection, secretName);
-    }
-
-
-    private async Task SaveAsync(SecretsStorageType storageType, String storageConnection, Secret secret)
-    {
-        var service = _secretsStorageServiceResolver(storageType);
-
-        await service.SaveAsync(storageConnection, secret);
     }
 }

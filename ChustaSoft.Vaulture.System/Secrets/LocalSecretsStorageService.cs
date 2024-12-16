@@ -17,7 +17,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
 
         var localStorageModel = LoadFile(storageConnection);
 
-        var data = localStorageModel.Secrets.Select(x => new Secret(x.Type, x.Name, x.Value));
+        var data = localStorageModel.Secrets.Select(x => new Secret(x.Type, x.Name, new SecretValue(x.Value)));
         
         return await Task.FromResult(data);
     }
@@ -32,7 +32,7 @@ public class LocalFileSecretsStorageService : ISecretsStorageService
         var data = localStorageModel.Secrets
             .First(x => x.Name == name);
 
-        return await Task.FromResult(new Secret(data.Type, data.Name, data.Value));
+        return await Task.FromResult(new Secret(data.Type, data.Name, new SecretValue(data.Value)));
     }
 
     public Task SaveAsync(string storageConnection, Secret secret)
