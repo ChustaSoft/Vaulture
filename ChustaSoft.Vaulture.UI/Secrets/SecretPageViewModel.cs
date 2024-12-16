@@ -1,10 +1,11 @@
 ﻿using ChustaSoft.Vaulture.Application.Secrets;
 using ChustaSoft.Vaulture.Domain.Secrets;
 using ChustaSoft.Vaulture.UI.Common;
+using System.Net;
 
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
-//TODO: By the moment, is handling directly a Credential object, should be abstract to any kind of Secret
+
 public partial class SecretPageViewModel : ObservableObject
 {
 
@@ -19,24 +20,47 @@ public partial class SecretPageViewModel : ObservableObject
     private PageMode mode;
 
     [ObservableProperty]
+    private SecretTypeVisibilityModel secretTypeVisibilityModel = new SecretTypeVisibilityModel { SecretsStorageConnectionSelected = "Valid" };
+
+    [ObservableProperty]
     private string name;
 
     [ObservableProperty]
-    private string key;
+    private string? key;
 
     [ObservableProperty]
-    private string password;
+    private string? password;
+
+    [ObservableProperty]
+    private string? value;
+
+    private ISecretSaveCommand? _creationCommand = null;
 
 
-    public SecretPageViewModel(CredentialDto credential)
+    public SecretPageViewModel(SecretDto secret)
     {
         Mode = PageMode.View;
-        Name = credential.Name;
-        Key = credential.Key;
-        Password = credential.Password;
+        Name = secret.Name;
+
+        secretTypeVisibilityModel.SecretType = secret.Type;
+
+        switch (secret.Type)
+        {
+            case SecretType.Credential:
+                SetCredentialValues(secret);
+                break;
+
+            case SecretType.ConnectionString:
+                SetConnectionStringValues(secret);
+                break;
+
+            default:
+                throw new ArgumentException($"Unsupported Secret type: {secret.Type}");
+        }
     }
 
-    public SecretPageViewModel(ISecretsService secretsService, SecretsStorageType resourceType, string secretsStorageConnection, CredentialDto credential)
+
+    public SecretPageViewModel(ISecretsService secretsService, SecretsStorageType resourceType, string secretsStorageConnection, SecretDto credential)
         : this(credential)
     {
         _secretsService = secretsService;
@@ -48,18 +72,34 @@ public partial class SecretPageViewModel : ObservableObject
 
 
 
-    partial void OnKeyChanged(string value)
+    partial void OnKeyChanged(string? value)
     {
-        var credential = CreateCredentialSaveCommand();
+        if (!string.IsNullOrEmpty(value))
+        {
+            ((CredentialSaveCommand)_creationCommand!).Key = value;
 
-        EnableSaveAction = credential.IsValid();
+            EnableSaveAction = _creationCommand.IsValid();
+        }
     }
 
-    partial void OnPasswordChanged(string value)
+    partial void OnPasswordChanged(string? value)
     {
-        var credential = CreateCredentialSaveCommand();
+        if (!string.IsNullOrEmpty(value))
+        {
+            ((CredentialSaveCommand)_creationCommand!).Password = value;
 
-        EnableSaveAction = credential.IsValid();
+            EnableSaveAction = _creationCommand.IsValid();
+        }
+    }
+
+    partial void OnValueChanged(string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            ((ConnectionStringSaveCommand)_creationCommand!).Value = value;
+
+            EnableSaveAction = _creationCommand.IsValid();
+        }
     }
 
 
@@ -72,17 +112,36 @@ public partial class SecretPageViewModel : ObservableObject
     [RelayCommand]
     private async Task OnSaveAsync()
     {
-        var credential = CreateCredentialSaveCommand();
-
-        await _secretsService!.SaveAsync(_secretsStorageType!.Value, _secretsStorageConnection!, credential);
+        await _secretsService!.SaveAsync(_secretsStorageType!.Value, _secretsStorageConnection!, _creationCommand!);
     }
 
-    private CredentialSaveCommand CreateCredentialSaveCommand()
-        => new CredentialSaveCommand
-            {
-                Name = Name,
-                Key = Key,
-                Password = Password
-            };
+
+    private void SetCredentialValues(SecretDto secret)
+    {
+        var castedSecret = (CredentialDto)secret;
+
+        _creationCommand = new CredentialSaveCommand
+        {
+            Name = castedSecret.Name,
+            Key = castedSecret.Key!,
+            Password = castedSecret.Password!
+        };
+
+        Key = castedSecret.Key;
+        Password = castedSecret.Password;
+    }
+
+    private void SetConnectionStringValues(SecretDto secret)
+    {
+        var castedSecret = (ConnectionStringDto)secret;
+
+        _creationCommand = new ConnectionStringSaveCommand
+        {
+            Name = castedSecret.Name,
+            Value = castedSecret.Value!
+        };
+
+        Value = castedSecret.Value;
+    }
 
 }

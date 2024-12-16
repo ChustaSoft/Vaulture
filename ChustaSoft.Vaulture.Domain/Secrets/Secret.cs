@@ -4,27 +4,29 @@ public class Secret
 {
 
     public SecretType Type { get; init; }
-    public string Name { get; set; }
-    public SecretValue Value { get; set; } = null!;
+    public string Name { get; init; }
+    public SecretValue Value { get; private set; } = null!;
 
 
-    internal Secret(SecretType type, string name)
+    public Secret(SecretType type, string name, SecretValue value)
     {
         Type = type;
         Name = name;
+        Value = value;
     }
 
-    public Secret(SecretType type, string name, string value)
-        : this(type, name)
+    public Secret(ISecretSaveCommand saveCommand)
     {
-        Value = new SecretValue(value);
+        Type = saveCommand.Type;
+        Name = saveCommand.Name;
+
+        Value = saveCommand.Type switch
+        {
+            SecretType.Credential => new SecretValue((CredentialSaveCommand)saveCommand),
+            SecretType.ConnectionString => new SecretValue((ConnectionStringSaveCommand)saveCommand),
+
+            _ => throw new ArgumentException($"Unsupported Secret type: {saveCommand.Type}")
+        };
     }
 
-    public Secret(SecretType type, string name, string key, string password)
-       : this(type, name)
-    {
-        Value = new SecretValue(key, password);
-    }
-
-    //TODO: Missing logic here to generate a string value from any given secret, separating elements by :, ensuring that name doesn't have : internally
 }

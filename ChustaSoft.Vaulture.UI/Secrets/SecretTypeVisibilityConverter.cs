@@ -16,6 +16,7 @@ public class SecretTypeVisibilityConverter : IValueConverter
             (null, _, "Empty") => Visibility.Visible,
             (_, null, "Empty") => Visibility.Visible,
             (SecretType.Credential, not null, "Credential") => Visibility.Visible,
+            (SecretType.ConnectionString, not null, "ConnectionString") => Visibility.Visible,
             _ => Visibility.Hidden,
         };
     }
