@@ -4,8 +4,8 @@ public class Secret
 {
 
     public SecretType Type { get; init; }
-    public string Name { get; set; }
-    public SecretValue Value { get; set; } = null!;
+    public string Name { get; init; }
+    public SecretValue Value { get; private set; } = null!;
 
 
     internal Secret(SecretType type, string name)
@@ -20,11 +20,16 @@ public class Secret
         Value = new SecretValue(value);
     }
 
-    public Secret(SecretType type, string name, string key, string password)
-       : this(type, name)
+    public Secret(string name, string key, string password)
+       : this(SecretType.Credential, name)
     {
-        Value = new SecretValue(key, password);
+        Value = SecretValue.FromCredential(key, password);
     }
 
-    //TODO: Missing logic here to generate a string value from any given secret, separating elements by :, ensuring that name doesn't have : internally
+    public Secret(string name, string connectionString)
+       : this(SecretType.ConnectionString, name)
+    {
+        Value = SecretValue.FromConnectionString(connectionString);
+    }
+
 }

@@ -15,6 +15,7 @@ public static class SecretExtensions
         return entity.Type switch
         {
             SecretType.Credential => entity.ToCredentialDto(),
+            SecretType.ConnectionString => entity.ToConnectionStringDto(),
             _ => throw new InvalidOperationException("Unsupported Credential Type")
         };
     }
@@ -22,8 +23,15 @@ public static class SecretExtensions
 
     private static CredentialDto ToCredentialDto(this Secret entity)
     {
-        var value = entity.Value.AsCredentialValue();
+        var value = entity.Value.RetrieveCredentialValue();
 
         return new CredentialDto(entity.Name, value.Key, value.Password);
+    }
+
+    private static ConnectionStringDto ToConnectionStringDto(this Secret entity)
+    {
+        var value = entity.Value.RetrieveConnectionStringValue();
+
+        return new ConnectionStringDto(entity.Name, value.Value);
     }
 }

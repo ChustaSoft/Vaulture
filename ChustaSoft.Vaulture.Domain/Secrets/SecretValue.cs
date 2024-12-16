@@ -5,27 +5,47 @@ namespace ChustaSoft.Vaulture.Domain.Secrets;
 public record SecretValue
 {
 
-    public string Value { get; init; }
+    public string Value { get; init; } = null!;
 
+    private SecretValue() { }
 
     internal SecretValue(string value)
     {
         Value = value;
     }
 
-    public SecretValue(string key, string password)
+    public static SecretValue FromCredential(string key, string password)
     {
-        if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(password))
-            throw new ArgumentNullException("Key nor password could be null or empty values");
-
         var secretObj = new CredentialValue(key, password);
-
-        Value = JsonSerializer.Serialize(secretObj);
+        var secret = new SecretValue
+        {
+            Value = JsonSerializer.Serialize(secretObj)
+        };
+        
+        return secret;
     }
 
-    public CredentialValue AsCredentialValue()
+    public static SecretValue FromConnectionString(string value)
+    {
+        var secretObj = new ConnectionStringValue(value);
+        var secret = new SecretValue
+        {
+            Value = JsonSerializer.Serialize(secretObj)
+        };
+
+        return secret;
+    }
+
+    public CredentialValue RetrieveCredentialValue()
     {
         var credentialValue = JsonSerializer.Deserialize<CredentialValue>(Value);
+
+        return credentialValue!;
+    }
+
+    public ConnectionStringValue RetrieveConnectionStringValue()
+    {
+        var credentialValue = JsonSerializer.Deserialize<ConnectionStringValue>(Value);
 
         return credentialValue!;
     }
