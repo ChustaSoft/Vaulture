@@ -3,10 +3,10 @@
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretsPage : Page
+public partial class SecretsDashboardPage : Page
 {
 
-    public SecretsPage(SecretsPageViewModel viewModel)
+    public SecretsDashboardPage(SecretsDashboardPageViewModel viewModel)
     {
         DataContext = viewModel;
 

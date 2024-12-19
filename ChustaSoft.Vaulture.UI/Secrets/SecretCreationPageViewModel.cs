@@ -7,14 +7,14 @@ using System.Collections.ObjectModel;
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretFormPageViewModel : ObservableObject
+public partial class SecretCreationPageViewModel : ObservableObject
 {
 
     private readonly IAppSettingsService _appSettingsService;
     private readonly ISecretsService _secretsService;
 
 
-    public SecretFormPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService)
+    public SecretCreationPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService)
     {
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;

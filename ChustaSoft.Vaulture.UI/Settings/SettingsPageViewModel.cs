@@ -100,7 +100,7 @@ public partial class SettingsPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public async Task OnLoadAsync()
+    private async Task OnLoadAsync()
     {
         var settings = await _appSettingsService.LoadAsync();
 

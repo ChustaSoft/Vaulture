@@ -44,11 +44,11 @@ public partial class App
                 _ = services.AddSingleton<INavigationWindow, MainWindow>();
                 _ = services.AddSingleton<MainWindowViewModel>();
 
-                _ = services.AddSingleton<SecretsPage>();
-                _ = services.AddSingleton<SecretsPageViewModel>();
-                _ = services.AddSingleton<SecretFormPage>();
-                _ = services.AddSingleton<SecretFormPageViewModel>();
-                _ = services.AddSingleton<SecretPage>();
+                _ = services.AddSingleton<SecretsDashboardPage>();
+                _ = services.AddSingleton<SecretsDashboardPageViewModel>();
+                _ = services.AddSingleton<SecretCreationPage>();
+                _ = services.AddSingleton<SecretCreationPageViewModel>();
+                _ = services.AddSingleton<SecretDetailPage>();
                 _ = services.AddSingleton<SettingsPage>();
                 _ = services.AddSingleton<SettingsPageViewModel>();
                 _ = services.AddSingleton<AboutPage>();

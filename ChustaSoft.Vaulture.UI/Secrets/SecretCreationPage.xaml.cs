@@ -3,9 +3,9 @@
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretFormPage : Page
+public partial class SecretCreationPage : Page
 {
-    public SecretFormPage(SecretFormPageViewModel viewModel)
+    public SecretCreationPage(SecretCreationPageViewModel viewModel)
     {
         DataContext = viewModel;
 
@@ -14,7 +14,7 @@ public partial class SecretFormPage : Page
 
     private void PasswordBox_PasswordChanged(Object sender, RoutedEventArgs e)
     {
-        var vm = (SecretFormPageViewModel)DataContext;
+        var vm = (SecretCreationPageViewModel)DataContext;
 
         vm.Password = ((Wpf.Ui.Controls.PasswordBox)sender).Password;
     }

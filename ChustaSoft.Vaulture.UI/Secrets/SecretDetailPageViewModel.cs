@@ -5,7 +5,7 @@ using ChustaSoft.Vaulture.UI.Common;
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretPageViewModel : ObservableObject
+public partial class SecretDetailPageViewModel : ObservableObject
 {
 
     private readonly ISecretsService? _secretsService;
@@ -36,7 +36,7 @@ public partial class SecretPageViewModel : ObservableObject
     private ISecretSaveCommand? _creationCommand = null;
 
 
-    public SecretPageViewModel(SecretDto secret)
+    public SecretDetailPageViewModel(SecretDto secret)
     {
         Mode = PageMode.View;
         Name = secret.Name;
@@ -59,7 +59,7 @@ public partial class SecretPageViewModel : ObservableObject
     }
 
 
-    public SecretPageViewModel(ISecretsService secretsService, SecretsStorageType resourceType, string secretsStorageConnection, SecretDto credential)
+    public SecretDetailPageViewModel(ISecretsService secretsService, SecretsStorageType resourceType, string secretsStorageConnection, SecretDto credential)
         : this(credential)
     {
         _secretsService = secretsService;
