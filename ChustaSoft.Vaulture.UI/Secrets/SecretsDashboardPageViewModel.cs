@@ -34,6 +34,9 @@ public partial class SecretsDashboardPageViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<SecretsStorageViewModel> secretsStorages = new ObservableCollection<SecretsStorageViewModel>();
 
+    [ObservableProperty]
+    private bool enableAddSecretAction;
+
 
     [RelayCommand]
     public async Task OnLoadAsync()
@@ -49,6 +52,13 @@ public partial class SecretsDashboardPageViewModel : ObservableObject
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
         SecretsStorages = new ObservableCollection<SecretsStorageViewModel>(connectionsSecrets);
+        EnableAddSecretAction = SecretsStorages.Any();
+    }
+
+    [RelayCommand]
+    private void OnAddSecret()
+    {
+        _navigationService.Navigate(typeof(SecretCreationPage));
     }
 
     [RelayCommand]
