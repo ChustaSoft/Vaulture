@@ -12,12 +12,14 @@ public partial class SecretCreationPageViewModel : ObservableObject
 
     private readonly IAppSettingsService _appSettingsService;
     private readonly ISecretsService _secretsService;
+    private readonly INavigationService _navigationService;
 
 
-    public SecretCreationPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService)
+    public SecretCreationPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService)
     {
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;
+        _navigationService = navigationService;
     }
 
 
@@ -145,6 +147,8 @@ public partial class SecretCreationPageViewModel : ObservableObject
         await _secretsService.SaveAsync(ResourceTypeSelected.Type, SecretsStorageSelected!.Value.Value, _creationCommand);
 
         ResetPage();
+
+        _navigationService.Navigate(typeof(SecretsDashboardPage));
     }
 
 
