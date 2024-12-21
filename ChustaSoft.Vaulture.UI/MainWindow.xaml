@@ -28,6 +28,7 @@
 
         <ui:NavigationView
             x:Name="RootNavigation"
+            PaneDisplayMode="LeftFluent"
             Grid.Row="1"
             FooterMenuItemsSource="{Binding ViewModel.NavigationFooter, Mode=OneWay}"
             MenuItemsSource="{Binding ViewModel.NavigationItems, Mode=OneWay}">
