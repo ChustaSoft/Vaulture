@@ -39,13 +39,7 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 Content = AppConstants.Pages.SECRETS,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Key24 },
-                TargetPageType = typeof(Secrets.SecretsPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = AppConstants.Pages.ADD_SECRET,
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Add24 },
-                TargetPageType = typeof(Secrets.SecretFormPage)
+                TargetPageType = typeof(Secrets.SecretsDashboardPage)
             }
         ];
 

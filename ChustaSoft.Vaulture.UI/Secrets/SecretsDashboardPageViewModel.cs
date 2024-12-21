@@ -9,7 +9,7 @@ using Wpf.Ui.Controls;
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretsPageViewModel : ObservableObject
+public partial class SecretsDashboardPageViewModel : ObservableObject
 {
 
     private readonly IAppSettingsService _appSettingsService;
@@ -20,7 +20,7 @@ public partial class SecretsPageViewModel : ObservableObject
     public IContentDialogService DialogService { get; set; }
 
 
-    public SecretsPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService, ISnackbarService snackbarService, IContentDialogService dialogService)
+    public SecretsDashboardPageViewModel(IAppSettingsService appSettingsService, ISecretsService secretsService, INavigationService navigationService, ISnackbarService snackbarService, IContentDialogService dialogService)
     {
         _appSettingsService = appSettingsService;
         _secretsService = secretsService;
@@ -33,6 +33,9 @@ public partial class SecretsPageViewModel : ObservableObject
 
     [ObservableProperty]
     private ObservableCollection<SecretsStorageViewModel> secretsStorages = new ObservableCollection<SecretsStorageViewModel>();
+
+    [ObservableProperty]
+    private bool enableAddSecretAction;
 
 
     [RelayCommand]
@@ -49,6 +52,13 @@ public partial class SecretsPageViewModel : ObservableObject
         await Task.WhenAll(connectionsSecretsQueryTasks);
 
         SecretsStorages = new ObservableCollection<SecretsStorageViewModel>(connectionsSecrets);
+        EnableAddSecretAction = SecretsStorages.Any();
+    }
+
+    [RelayCommand]
+    private void OnAddSecret()
+    {
+        _navigationService.Navigate(typeof(SecretCreationPage));
     }
 
     [RelayCommand]
@@ -104,21 +114,21 @@ public partial class SecretsPageViewModel : ObservableObject
     {
         //TODO: Here we should create different type of credentials, and based on a converter, navigate to one or another control, now is forced to Credential
         var secret = await _secretsService.GetAsync(request.ResourceType, request.SecretsStorageConnection, request.SecretDto.Name);
-        SecretPageViewModel? viewModel = null;
+        SecretDetailPageViewModel? viewModel = null;
 
         switch (pageMode)
         {
             case PageMode.View:
-                viewModel = new SecretPageViewModel(secret);
+                viewModel = new SecretDetailPageViewModel(secret);
                 break;
             case PageMode.Edit:
-                viewModel = new SecretPageViewModel(_secretsService, request.ResourceType, request.SecretsStorageConnection, secret);
+                viewModel = new SecretDetailPageViewModel(_secretsService, request.ResourceType, request.SecretsStorageConnection, secret);
                 break;
             default:
                 throw new ArgumentException("Unsupported Page type");
         }
 
 
-        _navigationService.Navigate(typeof(SecretPage), viewModel);
+        _navigationService.Navigate(typeof(SecretDetailPage), viewModel);
     }
 }

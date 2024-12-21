@@ -3,9 +3,9 @@
 namespace ChustaSoft.Vaulture.UI.Secrets;
 
 
-public partial class SecretPage : Page
+public partial class SecretDetailPage : Page
 {
-    public SecretPage()
+    public SecretDetailPage()
     {
         InitializeComponent();
     }

@@ -40,14 +40,14 @@
 		<Compile Update="Settings\SettingsPageViewModel.cs">
 			<DependentUpon>SettingsPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Secrets\SecretsPageViewModel.cs">
-			<DependentUpon>SecretsPage.xaml</DependentUpon>
+		<Compile Update="Secrets\SecretsDashboardPageViewModel.cs">
+			<DependentUpon>SecretsDashboardPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Secrets\SecretFormPageViewModel.cs">
-			<DependentUpon>SecretFormPage.xaml</DependentUpon>
+		<Compile Update="Secrets\SecretCreationPageViewModel.cs">
+			<DependentUpon>SecretCreationPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="Secrets\SecretPageViewModel.cs">
-			<DependentUpon>SecretPage.xaml</DependentUpon>
+		<Compile Update="Secrets\SecretDetailPageViewModel.cs">
+			<DependentUpon>SecretDetailPage.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
